@@ -79,14 +79,14 @@ export const allNav = [
         title: 'All Product',
         icon: <AiFillDashboard />,
         role: 'seller',
-        path: '/seller/dashboard/all-product'
+        path: '/seller/dashboard/products'
     },
     {
         id: 12,
         title: 'Discount Product',
         icon: <AiFillDashboard />,
         role: 'seller',
-        path: '/seller/dashboard/discount-product'
+        path: '/seller/dashboard/discount-products'
     },
     {
         id: 13,
