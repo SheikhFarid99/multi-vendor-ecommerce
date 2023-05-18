@@ -1,7 +1,6 @@
 import React from 'react'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { RiProductHuntLine } from 'react-icons/ri'
-import { FaUsers } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Chart from 'react-apexcharts'
