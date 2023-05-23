@@ -1,14 +1,15 @@
-import React, { useState,useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineGooglePlus, AiOutlineGithub } from 'react-icons/ai'
 import { FiFacebook } from 'react-icons/fi'
 import { CiTwitter } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import { PropagateLoader } from 'react-spinners'
-import { overrideStyle } from '../../utils/utils'
+import { overrideStyle } from '../../utils/Utils'
 import { messageClear, seller_login } from '../../store/Reducers/authReducer'
 const Login = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const { loader, errorMessage, successMessage } = useSelector(state => state.auth)
     const [state, setSatate] = useState({
@@ -29,6 +30,7 @@ const Login = () => {
         if (successMessage) {
             toast.success(successMessage)
             dispatch(messageClear())
+            navigate('/')
         }
         if (errorMessage) {
             toast.error(errorMessage)

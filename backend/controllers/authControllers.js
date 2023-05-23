@@ -94,10 +94,11 @@ class authControllers {
                 const user = await adminModel.findById(id)
                 responseReturn(res, 200, { userInfo: user })
             } else {
-                console.log('seller info')
+                const user = await sellerModel.findById(id)
+                responseReturn(res, 200, { userInfo: user })
             }
         } catch (error) {
-            console.log(error.message)
+            responseReturn(res, 500, { error: 'Internal server error' })
         }
     }
 

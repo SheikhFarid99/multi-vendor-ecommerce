@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import jwt_decode from 'jwt-decode'
 import api from '../../api/api'
 
 export const admin_login = createAsyncThunk(
@@ -19,7 +20,6 @@ export const seller_login = createAsyncThunk(
     async (info, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.post('/seller-login', info, { withCredentials: true })
-            console.log(data)
             localStorage.setItem('accessToken', data.token)
             return fulfillWithValue(data)
         } catch (error) {
@@ -43,6 +43,33 @@ export const seller_register = createAsyncThunk(
     }
 )
 
+export const getUserInfo = createAsyncThunk(
+    'auth/getUserInfo',
+    async (_, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get('/get-user', { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
+const tokenDecode = (token) => {
+    if (token) {
+        const decodeToken = jwt_decode(token)
+        const expiresTime = new Date(decodeToken.exp * 1000);
+        if (new Date() > expiresTime) {
+            localStorage.removeItem('accessToken')
+            return ""
+        } else {
+            return decodeToken.role
+        }
+    } else {
+        return ""
+    }
+}
 
 export const authReducer = createSlice({
     name: 'auth',
@@ -50,7 +77,9 @@ export const authReducer = createSlice({
         successMessage: '',
         errorMessage: '',
         loader: false,
-        userInfo: ''
+        userInfo: '',
+        role: tokenDecode(localStorage.getItem('accessToken')),
+        token: localStorage.getItem('accessToken')
     },
     reducers: {
         messageClear: (state, _) => {
@@ -69,6 +98,8 @@ export const authReducer = createSlice({
         [admin_login.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.successMessage = payload.message
+            state.token = payload.token
+            state.role = tokenDecode(payload.token)
         },
         [seller_login.pending]: (state, _) => {
             state.loader = true
@@ -80,6 +111,8 @@ export const authReducer = createSlice({
         [seller_login.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.successMessage = payload.message
+            state.token = payload.token
+            state.role = tokenDecode(payload.token)
         },
         [seller_register.pending]: (state, _) => {
             state.loader = true
@@ -91,6 +124,11 @@ export const authReducer = createSlice({
         [seller_register.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.successMessage = payload.message
+            state.token = payload.token
+            state.role = tokenDecode(payload.token)
+        },
+        [getUserInfo.fulfilled]: (state, { payload }) => {
+            state.userInfo = payload.userInfo
         }
     }
 

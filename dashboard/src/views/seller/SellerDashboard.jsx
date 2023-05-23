@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { RiProductHuntLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { AiOutlineShoppingCart } from 'react-icons/ai'
 import Chart from 'react-apexcharts'
+import { useSelector, useDispatch } from 'react-redux'
+import { getUserInfo } from '../../store/Reducers/authReducer'
 
 const SellerDashboard = () => {
-
+    const dispatch = useDispatch()
     const state = {
         series: [
             {
