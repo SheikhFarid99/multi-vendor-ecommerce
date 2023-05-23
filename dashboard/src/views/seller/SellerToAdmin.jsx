@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { IoMdClose } from 'react-icons/io'
-import { FaList } from 'react-icons/fa'
 const SellerToAdmin = () => {
     return (
         <div className='px-2 lg:px-7 py-5'>

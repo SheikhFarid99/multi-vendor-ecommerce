@@ -34,7 +34,7 @@ const Orders = () => {
                                         <span>pending</span>
                                     </td>
                                     <td scope='row' className='py-3 px-4 font-medium whitespace-nowrap'>
-                                        <Link className='p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center'><FaEye /></Link>
+                                        <Link to={`/seller/dashboard/order/details/4545`} className='p-[6px] w-[30px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50 flex justify-center items-center'><FaEye /></Link>
                                     </td>
                                 </tr>)
                             }
