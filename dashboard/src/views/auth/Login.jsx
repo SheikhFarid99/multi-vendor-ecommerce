@@ -6,7 +6,7 @@ import { CiTwitter } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import { PropagateLoader } from 'react-spinners'
-import { overrideStyle } from '../../utils/Utils'
+import { overrideStyle } from '../../utils/utils'
 import { messageClear, seller_login } from '../../store/Reducers/authReducer'
 const Login = () => {
     const navigate = useNavigate()

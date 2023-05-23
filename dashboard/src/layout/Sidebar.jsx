@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { getNavs } from '../navigation/index'
 import { BiLogInCircle } from 'react-icons/bi'
-import { useSelector } from 'react-redux'
 const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { role } = useSelector(state => state.auth)
   const { pathname } = useLocation()
