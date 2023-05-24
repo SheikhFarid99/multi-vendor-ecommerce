@@ -130,6 +130,7 @@ export const authReducer = createSlice({
         [get_user_info.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.userInfo = payload.userInfo
+            state.role = payload.userInfo.role
         }
     }
 
