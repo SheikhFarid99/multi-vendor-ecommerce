@@ -1,13 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../api/api'
-export const categoryAdd = createAsyncThunk(
-    'category/categoryAdd',
-    async ({ name, image }, { rejectWithValue, fulfillWithValue }) => {
+export const add_product = createAsyncThunk(
+    'category/add_product',
+    async (product, { rejectWithValue, fulfillWithValue }) => {
         try {
-            const formData = new FormData()
-            formData.append('name', name)
-            formData.append('image', image)
-            const { data } = await api.post('/category-add', formData, { withCredentials: true })
+            const { data } = await api.post('/product-add', product, { withCredentials: true })
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -15,8 +12,8 @@ export const categoryAdd = createAsyncThunk(
     }
 )
 
-export const get_category = createAsyncThunk(
-    'category/get_category',
+export const get_product = createAsyncThunk(
+    'category/get_product',
     async ({ parPage, page, searchValue }, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.get(`/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, { withCredentials: true })
@@ -29,14 +26,14 @@ export const get_category = createAsyncThunk(
 
 
 
-export const categoryReducer = createSlice({
+export const productReducer = createSlice({
     name: 'category',
     initialState: {
         successMessage: '',
         errorMessage: '',
         loader: false,
-        categorys: [],
-        totalCategory : 0
+        products: [],
+        totalProduct: 0
     },
     reducers: {
         messageClear: (state, _) => {
@@ -45,24 +42,24 @@ export const categoryReducer = createSlice({
         }
     },
     extraReducers: {
-        [categoryAdd.pending]: (state, _) => {
+        [add_product.pending]: (state, _) => {
             state.loader = true
         },
-        [categoryAdd.rejected]: (state, { payload }) => {
+        [add_product.rejected]: (state, { payload }) => {
             state.loader = false
             state.errorMessage = payload.error
         },
-        [categoryAdd.fulfilled]: (state, { payload }) => {
+        [add_product.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.successMessage = payload.message
-            state.categorys = [...state.categorys, payload.category]
+            state.products = [...state.products, payload.category]
         },
-        [get_category.fulfilled]: (state, { payload }) => {
-            state.totalCategory = payload.totalCategory
-            state.categorys = payload.categorys
+        [get_product.fulfilled]: (state, { payload }) => {
+            state.totalProduct = payload.totalProduct
+            state.products = payload.products
         },
     }
 
 })
-export const { messageClear } = categoryReducer.actions
-export default categoryReducer.reducer
+export const { messageClear } = productReducer.actions
+export default productReducer.reducer

@@ -12,7 +12,7 @@ import Search from '../components/Search'
 import { categoryAdd, messageClear, get_category } from '../../store/Reducers/categoryReducer'
 const Category = () => {
     const dispatch = useDispatch()
-    const { loader, successMessage, errorMessage } = useSelector(state => state.category)
+    const { loader, successMessage, errorMessage, categorys } = useSelector(state => state.category)
     const [currentPage, setCurrentPage] = useState(1)
     const [searchValue, setSearchValue] = useState('')
     const [parPage, setParPage] = useState(5)
@@ -84,13 +84,13 @@ const Category = () => {
                                 </thead>
                                 <tbody>
                                     {
-                                        [1, 2, 3, 4, 5].map((d, i) => <tr key={i}>
-                                            <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d}</td>
+                                        categorys.map((d, i) => <tr key={i}>
+                                            <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{i + 1}</td>
                                             <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
-                                                <img className='w-[45px] h-[45px]' src={`http://localhost:3000/images/category/${d}.jpg`} alt="" />
+                                                <img className='w-[45px] h-[45px]' src={d.image} alt="" />
                                             </td>
                                             <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
-                                                <span>Sports</span>
+                                                <span>{d.name}</span>
                                             </td>
                                             <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                                 <div className='flex justify-start items-center gap-4'>
