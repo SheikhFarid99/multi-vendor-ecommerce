@@ -3,11 +3,15 @@ import { Link } from 'react-router-dom'
 import { BsImages } from 'react-icons/bs'
 import { IoCloseSharp } from 'react-icons/io5'
 import { useSelector, useDispatch } from 'react-redux'
+import toast from 'react-hot-toast'
+import { PropagateLoader } from 'react-spinners'
+import { overrideStyle } from '../../utils/utils'
 import { get_category } from '../../store/Reducers/categoryReducer'
-import { add_product } from '../../store/Reducers/productReducer'
+import { add_product, messageClear } from '../../store/Reducers/productReducer'
 const AddProduct = () => {
     const dispatch = useDispatch()
     const { categorys } = useSelector(state => state.category)
+    const { successMessage, errorMessage, loader } = useSelector(state => state.product)
     useEffect(() => {
         dispatch(get_category({
             searchValue: '',
@@ -91,7 +95,7 @@ const AddProduct = () => {
         formData.append('description', state.description)
         formData.append('price', state.price)
         formData.append('stock', state.stock)
-        formData.append('category', state.stock)
+        formData.append('category', state.category)
         formData.append('discount', state.discount)
         formData.append('shopName', 'Farid Fashoin')
         formData.append('brand', state.brand)
@@ -100,6 +104,29 @@ const AddProduct = () => {
         }
         dispatch(add_product(formData))
     }
+    useEffect(() => {
+        if (errorMessage) {
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        }
+        if (successMessage) {
+            toast.success(successMessage)
+            dispatch(messageClear())
+            setState({
+                name: "",
+                description: '',
+                discount: '',
+                price: "",
+                brand: "",
+                stock: ""
+            })
+            setImageShow([])
+            setImages([])
+            setCategory('')
+
+        }
+    }, [successMessage, errorMessage])
+
     return (
         <div className='px-2 lg:px-7 pt-5 '>
             <div className='w-full p-4  bg-[#283046] rounded-md'>
@@ -153,7 +180,7 @@ const AddProduct = () => {
                             </div>
                             <div className='flex flex-col w-full gap-1'>
                                 <label htmlFor="discount">Discount</label>
-                                <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' onChange={inputHandle} value={state.discount} type="number" placeholder='%discount%' name='discount' id='discount' />
+                                <input min='0' className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' onChange={inputHandle} value={state.discount} type="number" placeholder='%discount%' name='discount' id='discount' />
                             </div>
                         </div>
                         <div className='flex flex-col w-full gap-1 text-[#d0d2d6] mb-5'>
@@ -178,7 +205,11 @@ const AddProduct = () => {
                             <input multiple onChange={inmageHandle} className='hidden' type="file" id='image' />
                         </div>
                         <div className='flex'>
-                            <button className='bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2 '>Add Product</button>
+                            <button disabled={loader ? true : false} className='bg-blue-500 w-[190px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
+                                {
+                                    loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle} /> : 'Add product'
+                                }
+                            </button>
                         </div>
                     </form>
                 </div>
