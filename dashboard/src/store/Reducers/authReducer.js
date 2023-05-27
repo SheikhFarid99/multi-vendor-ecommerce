@@ -43,6 +43,20 @@ export const seller_register = createAsyncThunk(
 )
 
 
+export const profile_image_upload = createAsyncThunk(
+    'auth/profile_image_upload',
+    async (image, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/profile-image-upload', image, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
+
 export const get_user_info = createAsyncThunk(
     'auth/get_user_info',
     async (_, { rejectWithValue, fulfillWithValue }) => {
@@ -131,7 +145,15 @@ export const authReducer = createSlice({
             state.loader = false
             state.userInfo = payload.userInfo
             state.role = payload.userInfo.role
-        }
+        },
+        [profile_image_upload.pending]: (state, _) => {
+            state.loader = true
+        },
+        [profile_image_upload.fulfilled]: (state, { payload }) => {
+            state.loader = false
+            state.userInfo = payload.userInfo
+            state.successMessage = payload.message
+        },
     }
 
 })

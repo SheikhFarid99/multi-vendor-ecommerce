@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
 import toast from 'react-hot-toast'
 import { get_category } from '../../store/Reducers/categoryReducer'
-import { get_product,messageClear,update_product } from '../../store/Reducers/productReducer'
+import { get_product, messageClear, update_product,product_image_update } from '../../store/Reducers/productReducer'
 import { BsImages } from 'react-icons/bs'
 import { IoCloseSharp } from 'react-icons/io5'
 import { overrideStyle } from '../../utils/utils'
@@ -31,7 +31,7 @@ const EditProduct = () => {
     const inputHandle = (e) => {
         setState({
             ...state,
-            [e.target.name]: e.target.vale
+            [e.target.name]: e.target.value
         })
     }
 
@@ -53,13 +53,15 @@ const EditProduct = () => {
             setAllCategory(categorys)
         }
     }
-    const [images, setImages] = useState([])
     const [imageShow, setImageShow] = useState([])
 
     const changeImage = (img, files) => {
         if (files.length > 0) {
-            console.log(img)
-            console.log(files[0])
+            dispatch(product_image_update({
+                oldImage: img,
+                newImage: files[0],
+                productId
+            }))
         }
     }
 
@@ -89,23 +91,22 @@ const EditProduct = () => {
         if (successMessage) {
             toast.success(successMessage)
             dispatch(messageClear())
-            setState({
-                name: "",
-                description: '',
-                discount: '',
-                price: "",
-                brand: "",
-                stock: ""
-            })
-            setCategory('')
-
         }
     }, [successMessage, errorMessage])
 
     const update = (e) => {
         e.preventDefault()
-        state.productId = productId
-        dispatch(update_product(state))
+        const obj = {
+            name: state.name,
+            description: state.description,
+            discount: state.discount,
+            price: state.price,
+            brand: state.brand,
+            stock: state.stock,
+            productId: productId
+        }
+        console.log(obj)
+        dispatch(update_product(obj))
     }
     return (
         <div className='px-2 lg:px-7 pt-5 '>
