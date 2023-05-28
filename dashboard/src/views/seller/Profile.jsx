@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsImages } from 'react-icons/bs'
 import { FaEdit } from 'react-icons/fa'
+import { PropagateLoader } from 'react-spinners'
 import { FadeLoader } from 'react-spinners'
 import toast from 'react-hot-toast'
 import { useSelector, useDispatch } from 'react-redux'
-import { profile_image_upload, messageClear } from '../../store/Reducers/authReducer'
+import { overrideStyle } from '../../utils/utils'
+import { profile_image_upload, messageClear, profile_info_add } from '../../store/Reducers/authReducer'
 const Profile = () => {
+    const [state, setState] = useState({
+        division: '',
+        district: '',
+        shopName: '',
+        sub_district: ''
+    })
     const dispatch = useDispatch()
-    const { userInfo, loader,successMessage } = useSelector(state => state.auth)
+    const { userInfo, loader, successMessage } = useSelector(state => state.auth)
     const status = 'active'
 
     const add_image = (e) => {
@@ -23,6 +31,19 @@ const Profile = () => {
             messageClear()
         }
     }, [successMessage])
+
+
+    const add = (e) => {
+        e.preventDefault()
+        dispatch(profile_info_add(state))
+    }
+
+    const inputHandle = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    }
     return (
         <div className='px-2 lg:px-7 py-5'>
             <div className='w-full flex flex-wrap'>
@@ -86,41 +107,45 @@ const Profile = () => {
                         </div>
                         <div className='px-0 md:px-5 py-2'>
                             {
-                                !userInfo?.shopInfo ? <form action="">
+                                !userInfo?.shopInfo ? <form onSubmit={add}>
                                     <div className='flex flex-col w-full gap-1 mb-3'>
                                         <label htmlFor="Shop">Shop Name</label>
-                                        <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='shop name' name='shopName' id='Shop' />
+                                        <input value={state.shopName} onChange={inputHandle} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='shop name' name='shopName' id='Shop' />
                                     </div>
                                     <div className='flex flex-col w-full gap-1'>
                                         <label htmlFor="div">Division</label>
-                                        <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='division' name='division' id='div' />
+                                        <input value={state.division} onChange={inputHandle} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='division' name='division' id='div' />
                                     </div>
                                     <div className='flex flex-col w-full gap-1 mb-3'>
                                         <label htmlFor="district">District</label>
-                                        <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='district' name='district' id='district' />
+                                        <input value={state.district} onChange={inputHandle} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='district' name='district' id='district' />
                                     </div>
                                     <div className='flex flex-col w-full gap-1 mb-3'>
                                         <label htmlFor="sub">Sub District</label>
-                                        <input className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='sub district' name='subDistrict' id='sub' />
+                                        <input value={state.sub_district} onChange={inputHandle} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='sub district' name='sub_district' id='sub' />
                                     </div>
-                                    <button className='bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-md px-7 py-2 my-2 '>Add</button>
+                                    <button disabled={loader ? true : false} className='bg-blue-500 w-[190px] hover:shadow-blue-500/20 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
+                                        {
+                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle} /> : 'Update Info'
+                                        }
+                                    </button>
                                 </form> : <div className='flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative'>
                                     <span className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer'><FaEdit /></span>
                                     <div className='flex gap-2'>
                                         <span>Shop Name : </span>
-                                        <span>Sheikh Fashion</span>
+                                        <span>{userInfo.shopInfo?.shopName}</span>
                                     </div>
                                     <div className='flex gap-2'>
                                         <span>Division : </span>
-                                        <span>Rangpur</span>
+                                        <span>{userInfo.shopInfo?.division}</span>
                                     </div>
                                     <div className='flex gap-2'>
                                         <span>District : </span>
-                                        <span>Kurigram</span>
+                                        <span>{userInfo.shopInfo?.district}</span>
                                     </div>
                                     <div className='flex gap-2'>
                                         <span>Sub District : </span>
-                                        <span>Nageshawri</span>
+                                        <span>{userInfo.shopInfo?.sub_district}</span>
                                     </div>
                                 </div>
                             }
