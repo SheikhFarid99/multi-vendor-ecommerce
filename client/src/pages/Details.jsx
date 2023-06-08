@@ -5,10 +5,15 @@ import { Link } from 'react-router-dom'
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import { Pagination } from 'swiper'
 import Ratings from '../components/Ratings'
 import { AiFillHeart } from 'react-icons/ai'
 import { FaFacebookF, FaLinkedin } from 'react-icons/fa'
 import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
+import Reviews from '../components/Reviews'
 const Details = () => {
     const [image, setImage] = useState('')
     const [state, setState] = useState('reviews')
@@ -183,16 +188,92 @@ const Details = () => {
                                 </div>
                                 <div>
                                     {
-                                        state === 'reviews' ? 'reviews' : 'description'
+                                        state === 'reviews' ? <Reviews /> : <p className='py-5 text-slate-600'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has</p>
                                     }
                                 </div>
                             </div>
                         </div>
-                        <div className='w-[28%%] md-lg:w-full'>
+                        <div className='w-[28%] md-lg:w-full'>
                             <div className='pl-4 md-lg:pl-0'>
-
+                                <div className='px-3 py-2 text-slate-600 bg-slate-200'>
+                                    <h2> From Farid Fashion</h2>
+                                </div>
+                                <div className='flex flex-col gap-5 mt-3 border p-3'>
+                                    {
+                                        [1, 2, 3].map((p, i) => {
+                                            return (
+                                                <Link className='block'>
+                                                    <div className='relative h-[270px]'>
+                                                        <img className='w-full h-full' src={`http://localhost:3000/images/products/${p}.webp`} />
+                                                        <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>6%</div>
+                                                    </div>
+                                                    <h2 className='text-slate-600 py-1'>tandard dummy text ever since the</h2>
+                                                    <div className='flex items-center gap-2'>
+                                                        <Ratings ratings={4.5} />
+                                                    </div>
+                                                </Link>
+                                            )
+                                        })
+                                    }
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
+                    <h2 className='text-2xl py-8 text-slate-600'>Related Products</h2>
+                    <div>
+                        <Swiper
+                            slidesPerView='auto'
+                            breakpoints={{
+                                1280: {
+                                    slidesPerView: 3
+                                },
+                                565: {
+                                    slidesPerView: 2
+                                }
+                            }}
+                            spaceBetween={25}
+                            loop={true}
+                            pagination={{
+                                clickable: true,
+                                el: '.custom_bullet'
+                            }}
+                            modules={[Pagination]}
+                            className='mySwiper'
+                        >
+                            {
+                                [1, 2, 3, 4, 5, 6, 7].map((p, i) => {
+                                    return (
+                                        <SwiperSlide>
+                                            <Link className='block'>
+                                                <div className='relative h-[270px]'>
+                                                    <div className='w-full h-full'>
+                                                        <img className='w-full h-full' src={`http://localhost:3000/images/products/${p}.webp`} />
+                                                        <div className='absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500'></div>
+                                                    </div>
+                                                    <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>6%</div>
+                                                </div>
+                                                <div className='p-4 flex flex-col gap-1'>
+                                                    <h2 className='text-slate-600 text-lg font-semibold'>tandard dummy text ever since the</h2>
+                                                    <div className='flex justify-start items-center gap-3'>
+                                                        <h2 className='text-[#6699ff] text-lg font-bold'>$565</h2>
+                                                        <div className='flex'>
+                                                            <Ratings ratings={4.5} />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </SwiperSlide>
+                                    )
+                                })
+                            }
+                        </Swiper>
+                    </div>
+                    <div className='w-full flex justify-center items-center py-10'>
+                        <div className='custom_bullet justify-center gap-3 !w-auto'></div>
                     </div>
                 </div>
             </section>
