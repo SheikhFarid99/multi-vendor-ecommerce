@@ -5,6 +5,7 @@ import Card from './pages/Card';
 import Details from './pages/Details';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import Shipping from './pages/Shipping';
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/shops' element={<Shops />} />
         <Route path='/card' element={<Card />} />
+        <Route path='/shipping' element={<Shipping />} />
         <Route path='/product/details/:slug' element={<Details />} />
       </Routes>
     </BrowserRouter>
