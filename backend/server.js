@@ -12,6 +12,8 @@ app.use(cors({
 }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+
+app.use('/api/home', require('./routes/home/homeRoutes'))
 app.use('/api', require('./routes/authRoutes'))
 app.use('/api', require('./routes/dashboard/sellerRoutes'))
 app.use('/api', require('./routes/dashboard/categoryRoutes'))
