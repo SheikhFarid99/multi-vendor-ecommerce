@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Range } from 'react-range'
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
 import Headers from '../components/Headers'
@@ -14,16 +14,17 @@ import Pagination from '../components/Pagination'
 import { price_range_product, query_products } from '../store/reducers/homeReducer'
 import { useDispatch, useSelector } from 'react-redux'
 
-const Shops = () => {
+const SearchProducts = () => {
 
-
-    const { products, totalProduct, latest_product, categorys, priceRange, parPage } = useSelector(state => state.home)
+    let [searchParams, setSearchParams] = useSearchParams()
+    const category = searchParams.get('category')
+    const searchValue = searchParams.get('value')
+    const { products, totalProduct, latest_product, priceRange, parPage } = useSelector(state => state.home)
 
     const dispatch = useDispatch()
     const [pageNumber, setPageNumber] = useState(1)
     const [styles, setStyles] = useState('grid')
     const [filter, setFilter] = useState(true)
-    const [category, setCategory] = useState('')
     const [state, setState] = useState({ values: [priceRange.low, priceRange.high] })
     const [rating, setRatingQ] = useState('')
     const [sortPrice, setSortPrice] = useState('')
@@ -37,26 +38,19 @@ const Shops = () => {
         })
     }, [priceRange])
 
-    const queryCategoey = (e, value) => {
-        if (e.target.checked) {
-            setCategory(value)
-        } else {
-            setCategory('')
-        }
-    }
-    console.log(category)
     useEffect(() => {
         dispatch(
             query_products({
-                low: state.values[0],
-                high: state.values[1],
+                low: state.values[0] || '',
+                high: state.values[1] || '',
                 category,
                 rating,
                 sortPrice,
-                pageNumber
+                pageNumber,
+                searchValue
             })
         )
-    }, [state.values[0], state.values[1], category, rating, pageNumber, sortPrice])
+    }, [state.values[0], state.values[1], category, rating, pageNumber, sortPrice, searchValue])
 
     const resetRating = () => {
         setRatingQ('')
@@ -93,15 +87,6 @@ const Shops = () => {
                     </div>
                     <div className='w-full flex flex-wrap'>
                         <div className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${filter ? 'md:h-0 md:overflow-hidden md:mb-6' : 'md:h-auto md:overflow-auto md:mb-0'}`}>
-                            <h2 className='text-3xl font-bold mb-3 text-slate-600'>Category</h2>
-                            <div className='py-2'>
-                                {
-                                    categorys.map((c, i) => <div className='flex justify-start items-center gap-2 py-1' key={i}>
-                                        <input checked={category === c.name ? true : false} onChange={(e) => queryCategoey(e, c.name)} type="checkbox" id={c.name} />
-                                        <label className='text-slate-600 block cursor-pointer' htmlFor={c.name}>{c.name}</label>
-                                    </div>)
-                                }
-                            </div>
                             <div className='py-2 flex flex-col gap-5'>
                                 <h2 className='text-3xl font-bold mb-3 text-slate-600'>Price</h2>
                                 <Range
@@ -213,4 +198,4 @@ const Shops = () => {
     )
 }
 
-export default Shops
+export default SearchProducts

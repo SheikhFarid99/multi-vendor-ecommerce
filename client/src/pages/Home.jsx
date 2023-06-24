@@ -9,17 +9,16 @@ import Footer from '../components/Footer'
 import { get_category, get_products } from '../store/reducers/homeReducer'
 const Home = () => {
     const dispatch = useDispatch()
-    const { categorys, products, latest_product, topRated_product, discount_product } = useSelector(state => state.home)
+    const {products, latest_product, topRated_product, discount_product } = useSelector(state => state.home)
     useEffect(() => {
-        dispatch(get_category())
         dispatch(get_products())
     }, [])
     return (
         <div className='w-full'>
-            <Heders categorys={categorys} />
+            <Heders />
             <Banner />
             <div className='my-4'>
-                <Categorys categorys={categorys} />
+                <Categorys />
             </div>
             <div className='py-[45px]'>
                 <FeatureProducts products={products} />

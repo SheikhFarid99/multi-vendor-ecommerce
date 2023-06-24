@@ -4,9 +4,12 @@ import Footer from '../components/Footer'
 import { FaFacebookF } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { AiOutlineGoogle } from 'react-icons/ai'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { customer_register } from '../store/reducers/authReducer'
 const Register = () => {
 
+    const { loader } = useSelector(state => state.auth)
+    const dispatch = useDispatch()
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -21,7 +24,7 @@ const Register = () => {
     }
     const register = (e) => {
         e.preventDefault()
-        console.log(state)
+        dispatch(customer_register(state))
     }
     return (
         <div>
@@ -35,15 +38,15 @@ const Register = () => {
                                 <form onSubmit={register} className='text-slate-600'>
                                     <div className='flex flex-col gap-1 mb-2'>
                                         <label htmlFor="name">Name</label>
-                                        <input onChange={inputHandle} value={state.name} type="text" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='name' name='name' placeholder='name' />
+                                        <input onChange={inputHandle} value={state.name} type="text" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='name' name='name' placeholder='name' required />
                                     </div>
                                     <div className='flex flex-col gap-1 mb-2'>
                                         <label htmlFor="email">Email</label>
-                                        <input onChange={inputHandle} value={state.email} type="email" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='email' name='email' placeholder='email' />
+                                        <input onChange={inputHandle} value={state.email} type="email" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='email' name='email' placeholder='email' required />
                                     </div>
                                     <div className='flex flex-col gap-1 mb-4'>
                                         <label htmlFor="password">Passoword</label>
-                                        <input onChange={inputHandle} value={state.password} type="password" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='password' name='password' placeholder='password' />
+                                        <input onChange={inputHandle} value={state.password} type="password" className='w-full px-3 py-2 border border-slate-200 outline-none focus:border-indigo-500 rounded-md' id='password' name='password' placeholder='password' required />
                                     </div>
                                     <button className='px-8 w-full py-2 bg-purple-500 shadow-lg hover:shadow-indigo-500/30 text-white rounded-md'>Register</button>
                                 </form>
