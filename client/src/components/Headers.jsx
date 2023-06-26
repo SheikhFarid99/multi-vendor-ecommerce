@@ -11,6 +11,7 @@ const Headers = () => {
 
     const navigate = useNavigate()
     const { categorys } = useSelector(state => state.home)
+    const { userInfo } = useSelector(state => state.auth)
 
     const { pathname } = useLocation()
     const [showShidebar, setShowShidebar] = useState(true);
@@ -52,9 +53,9 @@ const Headers = () => {
                                     </ul>
                                 </div>
                                 {
-                                    user ? <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm' to='/dashboard'>
+                                    userInfo ? <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm' to='/dashboard'>
                                         <span><FaUser /></span>
-                                        <span>Sheikh farid</span>
+                                        <span>{userInfo.name}</span>
                                     </Link> : <Link to='/login' className='flex cursor-pointer justify-center items-center gap-2 text-sm'>
                                         <span><FaLock /></span>
                                         <span>Login</span>
@@ -136,9 +137,9 @@ const Headers = () => {
                                 </ul>
                             </div>
                             {
-                                user ? <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm' to='/dashboard'>
+                                userInfo ? <Link className='flex cursor-pointer justify-center items-center gap-2 text-sm' to='/dashboard'>
                                     <span><FaUser /></span>
-                                    <span>Sheikh farid</span>
+                                    <span>{userInfo.name}</span>
                                 </Link> : <div className='flex cursor-pointer justify-center items-center gap-2 text-sm'>
                                     <span><FaLock /></span>
                                     <span>Login</span>
