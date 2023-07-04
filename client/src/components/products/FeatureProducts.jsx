@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { AiFillHeart, AiOutlineShoppingCart } from 'react-icons/ai'
 import { FaEye } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 import Ratings from '../Ratings'
-import { add_to_card } from '../../store/reducers/cardReducer'
+import { add_to_card, messageClear } from '../../store/reducers/cardReducer'
 
 const FeatureProducts = ({ products }) => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { userInfo } = useSelector(state => state.auth)
+    const { successMessage, errorMessage } = useSelector(state => state.card)
 
     const add_card = (id) => {
         if (userInfo) {
@@ -23,6 +25,16 @@ const FeatureProducts = ({ products }) => {
             navigate('/login')
         }
     }
+    useEffect(()=>{
+        if(successMessage){
+            toast.success(successMessage)
+            dispatch(messageClear())
+        }
+        if(errorMessage){
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        }
+    },[errorMessage,successMessage])
     return (
         <div className='w-[85%] flex flex-wrap mx-auto'>
             <div className='w-full'>

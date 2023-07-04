@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 import Headers from '../components/Headers'
 import Footer from '../components/Footer'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
+import { useDispatch, useSelector } from 'react-redux'
+import { place_order } from '../store/reducers/orderReducer'
+
 const Shipping = () => {
-    //const { state } = useLocation()
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { userInfo } = useSelector(state => state.auth)
+    const { state: { products, price, shipping_fee, items } } = useLocation()
     const [res, setRes] = useState(false)
     const [state, setState] = useState({
         name: '',
@@ -27,6 +34,17 @@ const Shipping = () => {
         if (name && address && phone && post && province && city && area) {
             setRes(true)
         }
+    }
+    const placeOrder = () => {
+        dispatch(place_order({
+            price,
+            products,
+            shipping_fee,
+            shippingInfo: state,
+            userId: userInfo.id,
+            navigate,
+            items
+        }))
     }
     return (
         <div>
@@ -110,26 +128,26 @@ const Shipping = () => {
                                     }
                                 </div>
                                 {
-                                    [1, 2].map((p, i) => <div className='flex bg-white p-4 flex-col gap-2'>
+                                    products.map((p, i) => <div key={i} className='flex bg-white p-4 flex-col gap-2'>
                                         <div className='flex justify-start items-center'>
-                                            <h2 className='text-md text-slate-600'>Sheikh farid Fashion</h2>
+                                            <h2 className='text-md text-slate-600'>{p.shopName}</h2>
                                         </div>
                                         {
-                                            [1, 2].map((p, i) => <div className='w-full flex flex-wrap'>
+                                            p.products.map((pt, j) => <div key={i + 99} className='w-full flex flex-wrap'>
                                                 <div className='flex sm:w-full gap-2 w-7/12'>
                                                     <div className='flex gap-2 justify-start items-center'>
-                                                        <img className='w-[80px] h-[80px]' src={`http://localhost:3000/images/products/${i + 1}.webp`} alt="product image" />
+                                                        <img className='w-[80px] h-[80px]' src={pt.productInfo.images[0]} alt="product image" />
                                                         <div className='pr-4 text-slate-600'>
-                                                            <h2 className='text-md'>Long Sleeve casua Shirt for Man</h2>
-                                                            <span className='text-sm'>Brand : Easy</span>
+                                                            <h2 className='text-md'>{pt.productInfo.name}</h2>
+                                                            <span className='text-sm'>Brand : {pt.productInfo.brand}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className='flex justify-end w-5/12 sm:w-full sm:mt-3'>
                                                     <div className='pl-4 sm:pl-0'>
-                                                        <h2 className='text-lg text-orange-500'>$600</h2>
-                                                        <p className='line-through'>$656</p>
-                                                        <p>-10%</p>
+                                                        <h2 className='text-lg text-orange-500'>${pt.productInfo.price - Math.floor((pt.productInfo.price * pt.productInfo.discount) / 100)}</h2>
+                                                        <p className='line-through'>${pt.productInfo.price}</p>
+                                                        <p>-{pt.productInfo.discount}%</p>
                                                     </div>
                                                 </div>
                                             </div>)
@@ -143,22 +161,22 @@ const Shipping = () => {
                                 <div className='bg-white font-medium p-5 text-slate-600 flex flex-col gap-3'>
                                     <h2 className='text-xl font-semibold'>Order Summary</h2>
                                     <div className='flex justify-between items-center'>
-                                        <span>Items Total</span>
-                                        <span>$855</span>
+                                        <span>Items Total({price})</span>
+                                        <span>${price}</span>
                                     </div>
                                     <div className='flex justify-between items-center'>
                                         <span>Delivery Fee</span>
-                                        <span>$85</span>
+                                        <span>${shipping_fee}</span>
                                     </div>
                                     <div className='flex justify-between items-center'>
                                         <span>Total Payment</span>
-                                        <span>$855</span>
+                                        <span>${price + shipping_fee}</span>
                                     </div>
                                     <div className='flex justify-between items-center'>
                                         <span>Total</span>
-                                        <span>$955</span>
+                                        <span>${price + shipping_fee}</span>
                                     </div>
-                                    <button disabled={res ? false : true} className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${res ? 'bg-orange-500' : 'bg-orange-300'} text-sm text-white uppercase`}>Place Order</button>
+                                    <button onClick={placeOrder} disabled={res ? false : true} className={`px-5 py-[6px] rounded-sm hover:shadow-orange-500/20 hover:shadow-lg ${res ? 'bg-orange-500' : 'bg-orange-300'} text-sm text-white uppercase`}>Place Order</button>
                                 </div>
                             </div>
                         </div>
