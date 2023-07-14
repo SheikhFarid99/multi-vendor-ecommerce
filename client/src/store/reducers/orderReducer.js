@@ -6,13 +6,38 @@ import api from '../../api/api'
 
 export const place_order = createAsyncThunk(
     'order/place_order',
-    async ({price,products,shipping_fee,shippingInfo,userId,navigate,items}, { rejectWithValue, fulfillWithValue }) => {
+    async ({
+        price,
+        products,
+        shipping_fee,
+        shippingInfo,
+        userId,
+        navigate,
+        items
+    }) => {
         try {
-            const { data } = await api.post('/home/order/palce-order', {price,products,shipping_fee,shippingInfo,userId,navigate,items})
-            return fulfillWithValue(data)
+            const {
+                data
+            } = await api.post('/home/order/palce-order', {
+                price,
+                products,
+                shipping_fee,
+                shippingInfo,
+                userId,
+                navigate,
+                items,
+            })
+            navigate('/payment', {
+                state: {
+                    price: price + shipping_fee,
+                    items,
+                    orderId: data.orderId
+                }
+            })
+            console.log(data)
+            return true
         } catch (error) {
             console.log(error.response)
-            return rejectWithValue(error.response.data)
         }
     }
 )
