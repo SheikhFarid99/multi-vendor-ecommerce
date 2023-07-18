@@ -42,10 +42,30 @@ export const place_order = createAsyncThunk(
     }
 )
 
+export const get_orders = createAsyncThunk(
+    'order/get_orders',
+    async ({
+        customerId,
+        status
+    }, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/customer/gat-orders/${customerId}/${status}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+)
+
 export const orderReducer = createSlice({
     name: 'order',
     initialState: {
-        myOders: [],
+        myOrders: [],
         errorMessage: '',
         successMessage: '',
         myOrder: {}
@@ -57,7 +77,9 @@ export const orderReducer = createSlice({
         }
     },
     extraReducers: {
-
+        [get_orders.fulfilled] : (state,{payload})=>{
+            state.myOrders = payload.orders
+        }
     }
 })
 

@@ -2,6 +2,11 @@ const authorModel = require('../../models/authOrder')
 const customerOrder = require('../../models/customerOrder')
 const cardModel = require('../../models/cardModel')
 const {
+    mongo: {
+        ObjectId
+    }
+} = require('mongoose')
+const {
     responseReturn
 } = require('../../utiles/response')
 const moment = require('moment')
@@ -97,6 +102,63 @@ class orderController {
             })
         } catch (error) {
             console.log(error.message)
+        }
+    }
+
+    get_customer_databorad_data = async (req, res) => {
+        const {
+            userId
+        } = req.params
+
+        try {
+            const recentOrders = await customerOrder.find({
+                customerId: new ObjectId(userId)
+            }).limit(5)
+            const pendingOrder = await customerOrder.find({
+                customerId: new ObjectId(userId),
+                delivery_status: 'pendeng'
+            }).countDocuments()
+            const totalOrder = await customerOrder.find({
+                customerId: new ObjectId(userId)
+            }).countDocuments()
+            const cancelledOrder = await customerOrder.find({
+                customerId: new ObjectId(userId),
+                delivery_status: 'cancelled'
+            }).countDocuments()
+            responseReturn(res, 200, {
+                recentOrders,
+                pendingOrder,
+                cancelledOrder,
+                totalOrder
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    get_orders = async (req, res) => {
+        const {
+            customerId,
+            status
+        } = req.params
+
+        try {
+            let orders = []
+            if (status !== 'all') {
+                orders = await customerOrder.find({
+                    customerId: new ObjectId(customerId),
+                    delivery_status: status
+                })
+            } else {
+                orders = await customerOrder.find({
+                    customerId: new ObjectId(customerId)
+                })
+            }
+            responseReturn(res, 200, {
+                orders
+            })
+        } catch (error) {
+
         }
     }
 }
