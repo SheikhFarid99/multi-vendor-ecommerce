@@ -18,6 +18,7 @@ import Index from './components/dashboard/Index';
 import Orders from './components/dashboard/Orders';
 import Wishlist from './components/dashboard/Wishlist';
 import ChangePassword from './components/dashboard/ChangePassword';
+import Order from './components/dashboard/Order';
 function App() {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -42,6 +43,7 @@ function App() {
               <Route path='' element={<Index/>} />
               <Route path='my-orders' element={<Orders/>} />
               <Route path='my-wishlist' element={<Wishlist/>} />
+              <Route path='order/details/:orderId' element={<Order/>} />
               <Route path='chage-password' element={<ChangePassword/>} />
           </Route>
         </Route>

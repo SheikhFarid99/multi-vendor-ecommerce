@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import Ratings from '../Ratings'
-import { add_to_card, messageClear } from '../../store/reducers/cardReducer'
+import { add_to_card, messageClear, add_to_wishlist } from '../../store/reducers/cardReducer'
 
 const FeatureProducts = ({ products }) => {
 
@@ -25,16 +25,29 @@ const FeatureProducts = ({ products }) => {
             navigate('/login')
         }
     }
-    useEffect(()=>{
-        if(successMessage){
+    useEffect(() => {
+        if (successMessage) {
             toast.success(successMessage)
             dispatch(messageClear())
         }
-        if(errorMessage){
+        if (errorMessage) {
             toast.error(errorMessage)
             dispatch(messageClear())
         }
-    },[errorMessage,successMessage])
+    }, [errorMessage, successMessage])
+
+    const add_wishlist = (pro) => {
+        dispatch(add_to_wishlist({
+            userId: userInfo.id,
+            productId: pro._id,
+            name: pro.name,
+            price: pro.price,
+            image: pro.images[0],
+            discount: pro.discount,
+            rating: pro.rating,
+            slug: pro.slug
+        }))
+    }
     return (
         <div className='w-[85%] flex flex-wrap mx-auto'>
             <div className='w-full'>
@@ -52,7 +65,7 @@ const FeatureProducts = ({ products }) => {
                             }
                             <img className='sm:w-full w-full h-[240px]' src={p.images[0]} alt="product image" />
                             <ul className='flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3'>
-                                <li className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiFillHeart /></li>
+                                <li onClick={() => add_wishlist(p)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiFillHeart /></li>
                                 <Link to='/product/details/dsfdsf' className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all' ><FaEye /></Link>
                                 <li onClick={() => add_card(p._id)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
                             </ul>

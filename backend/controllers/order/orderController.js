@@ -158,7 +158,21 @@ class orderController {
                 orders
             })
         } catch (error) {
+            console.log(error.message)
+        }
+    }
+    get_order = async (req, res) => {
+        const {
+            orderId
+        } = req.params
 
+        try {
+            const order = await customerOrder.findById(orderId)
+            responseReturn(res, 200, {
+                order
+            })
+        } catch (error) {
+            console.log(error.message)
         }
     }
 }
