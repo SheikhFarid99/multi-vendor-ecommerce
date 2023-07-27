@@ -109,6 +109,40 @@ export const add_to_wishlist = createAsyncThunk(
     }
 )
 
+export const get_wishlist_products = createAsyncThunk(
+    'wishlist/get_wishlist_products',
+    async (userId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get(`/home/product/get-wishlist-products/${userId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const remove_wishlist = createAsyncThunk(
+    'wishlist/remove_wishlist',
+    async (wishlistId, {
+        rejectWithValue,
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.delete(`/home/product/delete-wishlist-product/${wishlistId}`)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 
 
 export const cardReducer = createSlice({
@@ -178,6 +212,19 @@ export const cardReducer = createSlice({
         }) => {
             state.successMessage = payload.message
             state.wishlist_count = state.wishlist_count > 0 ? state.wishlist_count + 1 : 1
+        },
+        [get_wishlist_products.fulfilled]: (state, {
+            payload
+        }) => {
+            state.wishlist = payload.wishlists
+            state.wishlist_count = payload.wishlistCount
+        },
+        [remove_wishlist.fulfilled]: (state, {
+            payload
+        }) => {
+            state.successMessage = payload.message
+            state.wishlist = state.wishlist.filter(p => p._id !== payload.wishlistId)
+            state.wishlist_count = state.wishlist_count - 1
         }
     }
 })
