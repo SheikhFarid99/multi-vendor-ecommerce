@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Headers from '../components/Headers'
 import Footer from '../components/Footer'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
@@ -16,12 +16,17 @@ import { FaFacebookF, FaLinkedin } from 'react-icons/fa'
 import { AiFillGithub, AiOutlineTwitter } from 'react-icons/ai'
 import Reviews from '../components/Reviews'
 import { get_product } from '../store/reducers/homeReducer'
+import { add_to_card, messageClear, add_to_wishlist } from '../store/reducers/cardReducer'
+import toast from 'react-hot-toast'
 
 const Details = () => {
 
+    const navigate = useNavigate()
     const { slug } = useParams()
     const dispatch = useDispatch()
     const { product, relatedProducts, moreProducts } = useSelector(state => state.home)
+    const { userInfo } = useSelector(state => state.auth)
+    const { errorMessage, successMessage } = useSelector(state => state.card)
 
     const [image, setImage] = useState('')
     const [state, setState] = useState('reviews')
@@ -56,13 +61,95 @@ const Details = () => {
         }
     }
 
-    const images = [1, 2, 3, 4, 5, 6, 7]
-    const discount = 15
-    const stock = 5
+    const [quantity, setQuantity] = useState(1)
+
+    const inc = () => {
+        if (quantity >= product.stock) {
+            toast.error('Out of stock')
+        } else {
+            setQuantity(quantity + 1)
+        }
+    }
+
+    const dec = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1)
+        }
+    }
+
+    const add_card = () => {
+        if (userInfo) {
+            dispatch(add_to_card({
+                userId: userInfo.id,
+                quantity,
+                productId: product._id
+            }))
+        } else {
+            navigate('/login')
+        }
+    }
+
+    const add_wishlist = () => {
+        if (userInfo) {
+            dispatch(add_to_wishlist({
+                userId: userInfo.id,
+                productId: product._id,
+                name: product.name,
+                price: product.price,
+                image: product.images[0],
+                discount: product.discount,
+                rating: product.rating,
+                slug: product.slug
+            }))
+        } else {
+            navigate('/login')
+        }
+
+    }
 
     useEffect(() => {
         dispatch(get_product(slug))
     }, [slug])
+    useEffect(() => {
+        if (errorMessage) {
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        }
+        if (successMessage) {
+            toast.success(successMessage)
+            dispatch(messageClear())
+        }
+    }, [errorMessage, successMessage])
+
+    const buy = () => {
+        let price = 0;
+        if (product.discount !== 0) {
+            price = product.price - Math.floor((product.price * product.discount) / 100)
+        } else {
+            price = product.price
+        }
+        const obj = [
+            {
+                sellerId: product.sellerId,
+                shopName: product.shopName,
+                price: quantity * (price - Math.floor((price * 5) / 100)),
+                products: [
+                    {
+                        quantity,
+                        productInfo: product
+                    }
+                ]
+            }
+        ]
+        navigate('/shipping', {
+            state: {
+                products: obj,
+                price: price * quantity,
+                shipping_fee: 85,
+                items: 1
+            }
+        })
+    }
     return (
         <div>
             <Headers />
@@ -126,9 +213,9 @@ const Details = () => {
                             </div>
                             <div className='text-2xl text-red-500 font-bold flex gap-3'>
                                 {
-                                   product.discount ? <>
+                                    product.discount !== 0 ? <>
                                         <h2 className='line-through'>${product.price}</h2>
-                                        <h2>${500 - Math.floor((500 * product.discount) / 100)} (-{product.discount}%)</h2>
+                                        <h2>${product.price - Math.floor((product.price * product.discount) / 100)} (-{product.discount}%)</h2>
                                     </> : <h2>Price : ${product.price}</h2>
                                 }
                             </div>
@@ -139,17 +226,17 @@ const Details = () => {
                                 {
                                     product.stock ? <>
                                         <div className='flex bg-slate-200 h-[50px] justify-center items-center text-xl'>
-                                            <div className='px-6 cursor-pointer'>-</div>
-                                            <div className='px-5'>5</div>
-                                            <div className='px-6 cursor-pointer'>+</div>
+                                            <div onClick={dec} className='px-6 cursor-pointer'>-</div>
+                                            <div className='px-5'>{quantity}</div>
+                                            <div onClick={inc} className='px-6 cursor-pointer'>+</div>
                                         </div>
                                         <div>
-                                            <button className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white'>Add To Card</button>
+                                            <button onClick={add_card} className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-purple-500/40 bg-purple-500 text-white'>Add To Card</button>
                                         </div>
                                     </> : ''
                                 }
                                 <div>
-                                    <div className='h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white'>
+                                    <div onClick={add_wishlist} className='h-[50px] w-[50px] flex justify-center items-center cursor-pointer hover:shadow-lg hover:shadow-cyan-500/40 bg-cyan-500 text-white'>
                                         <AiFillHeart />
                                     </div>
                                 </div>
@@ -160,8 +247,8 @@ const Details = () => {
                                     <span>Share on</span>
                                 </div>
                                 <div className='flex flex-col gap-5'>
-                                    <span className={`text-${stock ? 'green' : 'red'}-500`}>
-                                        {stock ? `In Stock(${stock})` : 'Out of Stock'}
+                                    <span className={`text-${product.stock ? 'green' : 'red'}-500`}>
+                                        {product.stock ? `In Stock(${product.stock})` : 'Out of Stock'}
                                     </span>
                                     <ul className='flex justify-start items-center gap-3'>
                                         <li>
@@ -181,9 +268,9 @@ const Details = () => {
                             </div>
                             <div className='flex gap-3'>
                                 {
-                                    stock ? <button className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white'>Buy Now</button> : ""
+                                    product.stock ? <button onClick={buy} className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-emerald-500/40 bg-emerald-500 text-white'>Buy Now</button> : ""
                                 }
-                                <button className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white'>Chat Seller</button>
+                                <Link to={`/dashboard/chat/${product.sellerId}`} className='px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-lime-500/40 bg-lime-500 text-white block'>Chat Seller</Link>
                             </div>
                         </div>
                     </div>
@@ -200,7 +287,7 @@ const Details = () => {
                                 </div>
                                 <div>
                                     {
-                                        state === 'reviews' ? <Reviews /> : <p className='py-5 text-slate-600'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has</p>
+                                        state === 'reviews' ? <Reviews product={product} /> : <p className='py-5 text-slate-600'>{product.description}</p>
                                     }
                                 </div>
                             </div>
@@ -208,20 +295,25 @@ const Details = () => {
                         <div className='w-[28%] md-lg:w-full'>
                             <div className='pl-4 md-lg:pl-0'>
                                 <div className='px-3 py-2 text-slate-600 bg-slate-200'>
-                                    <h2> From Farid Fashion</h2>
+                                    <h2> From {product.shopName}</h2>
                                 </div>
                                 <div className='flex flex-col gap-5 mt-3 border p-3'>
                                     {
-                                        [1, 2, 3].map((p, i) => {
+                                        moreProducts.map((p, i) => {
                                             return (
                                                 <Link className='block'>
                                                     <div className='relative h-[270px]'>
-                                                        <img className='w-full h-full' src={`http://localhost:3000/images/products/${p}.webp`} />
-                                                        <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>6%</div>
+                                                        <img className='w-full h-full' src={p.images[0]} />
+                                                        {
+                                                            p.discount !== 0 && <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>{p.discount}%</div>
+                                                        }
                                                     </div>
-                                                    <h2 className='text-slate-600 py-1'>tandard dummy text ever since the</h2>
-                                                    <div className='flex items-center gap-2'>
-                                                        <Ratings ratings={4.5} />
+                                                    <h2 className='text-slate-600 py-1'>{p.name}</h2>
+                                                    <div className='flex gap-2'>
+                                                        <h2 className='text-[#6699ff] text-lg font-bold'>${p.price}</h2>
+                                                        <div className='flex items-center gap-2'>
+                                                            <Ratings ratings={p.rating} />
+                                                        </div>
                                                     </div>
                                                 </Link>
                                             )
@@ -257,23 +349,25 @@ const Details = () => {
                             className='mySwiper'
                         >
                             {
-                                [1, 2, 3, 4, 5, 6, 7].map((p, i) => {
+                                relatedProducts.map((p, i) => {
                                     return (
-                                        <SwiperSlide>
+                                        <SwiperSlide key={i}>
                                             <Link className='block'>
                                                 <div className='relative h-[270px]'>
                                                     <div className='w-full h-full'>
-                                                        <img className='w-full h-full' src={`http://localhost:3000/images/products/${p}.webp`} />
+                                                        <img className='w-full h-full' src={p.images[0]} />
                                                         <div className='absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500'></div>
                                                     </div>
-                                                    <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>6%</div>
+                                                    {
+                                                        p.discount !== 0 && <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>{p.discount}%</div>
+                                                    }
                                                 </div>
                                                 <div className='p-4 flex flex-col gap-1'>
-                                                    <h2 className='text-slate-600 text-lg font-semibold'>tandard dummy text ever since the</h2>
+                                                    <h2 className='text-slate-600 text-lg font-semibold'>{p.name}</h2>
                                                     <div className='flex justify-start items-center gap-3'>
-                                                        <h2 className='text-[#6699ff] text-lg font-bold'>$565</h2>
+                                                        <h2 className='text-[#6699ff] text-lg font-bold'>${p.price}</h2>
                                                         <div className='flex'>
-                                                            <Ratings ratings={4.5} />
+                                                            <Ratings ratings={p.rating} />
                                                         </div>
                                                     </div>
                                                 </div>
