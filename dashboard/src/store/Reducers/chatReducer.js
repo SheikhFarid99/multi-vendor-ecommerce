@@ -25,6 +25,31 @@ export const get_customer_message = createAsyncThunk(
     }
 )
 
+export const send_message = createAsyncThunk(
+    'chat/send_message',
+    async (info, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post(`/chat/seller/send-message-to-customer`, info, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
+export const get_sellers = createAsyncThunk(
+    'chat/get_sellers',
+    async (customerId, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/chat/admin/get-sellers`, { withCredentials: true })
+            console.log(data)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 
 
 
@@ -36,18 +61,28 @@ export const chatReducer = createSlice({
         customers: [],
         messages: [],
         activeCustomer: [],
-        activeSeller: [],
+        activeSellers: [],
         messageNotification: [],
         activeAdmin: "",
         friends: [],
         seller_admin_message: [],
         currentSeller: {},
-        currentCustomer: {}
+        currentCustomer: {},
+        sellers: []
     },
     reducers: {
         messageClear: (state, _) => {
             state.errorMessage = ""
             state.successMessage = ""
+        },
+        updateMessage: (state, { payload }) => {
+            state.messages = [...state.messages, payload]
+        },
+        updateCustomer: (state, { payload }) => {
+            state.activeCustomer = payload
+        },
+        updateSellers: (state, { payload }) => {
+            state.activeSellers = payload
         }
     },
     extraReducers: {
@@ -55,11 +90,28 @@ export const chatReducer = createSlice({
         [get_customers.fulfilled]: (state, { payload }) => {
             state.customers = payload.customers
         },
-        [get_customers.fulfilled]: (state, { payload }) => {
-            state.customers = payload.customers
-        }
+        [get_customer_message.fulfilled]: (state, { payload }) => {
+            state.messages = payload.messages
+            state.currentCustomer = payload.currentCustomer
+        },
+        [send_message.fulfilled]: (state, { payload }) => {
+            let tempFriends = state.customers
+            let index = tempFriends.findIndex(f => f.fdId === payload.message.receverId)
+            while (index > 0) {
+                let temp = tempFriends[index]
+                tempFriends[index] = tempFriends[index - 1]
+                tempFriends[index - 1] = temp
+                index--
+            }
+            state.customers = tempFriends
+            state.messages = [...state.messages, payload.message]
+            state.successMessage = ' message send success'
+        },
+        [get_sellers.fulfilled]: (state, { payload }) => {
+            state.sellers = payload.sellers
+        },
     }
 
 })
-export const { messageClear } = chatReducer.actions
+export const { messageClear, updateMessage, updateCustomer, updateSellers } = chatReducer.actions
 export default chatReducer.reducer

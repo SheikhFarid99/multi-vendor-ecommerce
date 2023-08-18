@@ -40,12 +40,16 @@ export const chatReducer = createSlice({
         my_friends: [],
         fd_messages: [],
         currentFd: "",
-        successMessage: ""
+        successMessage: "",
+        errorMessage : ""
     },
     reducers: {
         messageClear: (state, _) => {
             state.errorMessage = ''
             state.successMessage = ''
+        },
+        updateMessage: (state, { payload }) => {
+            state.fd_messages = [...state.fd_messages, payload]
         }
     },
     extraReducers: {
@@ -71,6 +75,7 @@ export const chatReducer = createSlice({
 })
 
 export const {
-    messageClear
+    messageClear,
+    updateMessage
 } = chatReducer.actions
 export default chatReducer.reducer
