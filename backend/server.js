@@ -79,7 +79,6 @@ io.on('connection', (soc) => {
         addUser(customerId, soc.id, userInfo)
         io.emit('activeSeller', allSeller)
         io.emit('activeCustomer', allCustomer)
-        // console.log(allCustomer)
     })
     soc.on('add_seller', (sellerId, userInfo) => {
         addSeller(sellerId, soc.id, userInfo)
