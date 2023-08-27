@@ -51,6 +51,20 @@ export const get_active_sellers = createAsyncThunk(
 )
 
 
+export const get_deactive_sellers = createAsyncThunk(
+    'seller/get_active_sellers',
+    async ({parPage, page, searchValue}, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/get-deactive-sellers?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`, { withCredentials: true })
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
+
 
 export const sellerReducer = createSlice({
     name: 'seller',

@@ -144,7 +144,7 @@ app.use(cookieParser())
 app.use('/api', require('./routes/chatRoutes'))
 
 app.use('/api/home', require('./routes/home/homeRoutes'))
-app.use('/api/home', require('./routes/order/orderRoutes'))
+app.use('/api', require('./routes/order/orderRoutes'))
 app.use('/api', require('./routes/home/cardRoutes'))
 app.use('/api', require('./routes/authRoutes'))
 app.use('/api', require('./routes/home/customerAuthRoutes'))

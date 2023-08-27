@@ -12,7 +12,7 @@ const Sellers = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [searchValue, setSearchValue] = useState('')
     const [parPage, setParPage] = useState(5)
-    const { sellers } = useSelector(state => state.seller)
+    const { sellers, totalSellers } = useSelector(state => state.seller)
     // const [show, setShow] = useState(false)
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const Sellers = () => {
                         <option value="5">15</option>
                         <option value="5">25</option>
                     </select>
-                    <input onChange={e => setSearchValue(e.target.value)} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='search' />
+                    <input onChange={e => setSearchValue(e.target.value)} value={searchValue} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='search' />
                 </div>
                 <div className='relative overflow-x-auto'>
                     <table className='w-full text-sm text-left text-[#d0d2d6]'>
@@ -52,7 +52,7 @@ const Sellers = () => {
                         <tbody className='text-sm font-normal'>
                             {
                                 sellers.map((d, i) => <tr key={i}>
-                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{i+1}</td>
+                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{i + 1}</td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                         <img className='w-[45px] h-[45px]' src={`http://localhost:3000/images/category/${d.image}.jpg`} alt="" />
                                     </td>
@@ -72,7 +72,7 @@ const Sellers = () => {
                                         <span>{d.shopInfo?.division}</span>
                                     </td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
-                                    <span>{d.shopInfo?.district}</span>
+                                        <span>{d.shopInfo?.district}</span>
                                     </td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                         <div className='flex justify-start items-center gap-4'>
@@ -84,15 +84,17 @@ const Sellers = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
-                    <Pagination
-                        pageNumber={currentPage}
-                        setPageNumber={setCurrentPage}
-                        totalItem={50}
-                        parPage={parPage}
-                        showItem={4}
-                    />
-                </div>
+                {
+                    totalSellers <= parPage ? <div className='w-full flex justify-end mt-4 bottom-4 right-4'>
+                        <Pagination
+                            pageNumber={currentPage}
+                            setPageNumber={setCurrentPage}
+                            totalItem={totalSellers}
+                            parPage={parPage}
+                            showItem={4}
+                        />
+                    </div> : ""
+                }
             </div>
         </div>
     )
