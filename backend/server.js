@@ -84,8 +84,8 @@ io.on('connection', (soc) => {
         addSeller(sellerId, soc.id, userInfo)
         io.emit('activeSeller', allSeller)
         io.emit('activeCustomer', allCustomer)
-        io.emit('activeAdmin', {status : true})
-       
+        io.emit('activeAdmin', { status: true })
+
     })
 
     soc.on('add_admin', (adminInfo) => {
@@ -93,7 +93,7 @@ io.on('connection', (soc) => {
         admin = adminInfo
         admin.socketId = soc.id
         io.emit('activeSeller', allSeller)
-        io.emit('activeAdmin', {status : true})
+        io.emit('activeAdmin', { status: true })
 
     })
     soc.on('send_seller_message', (msg) => {
@@ -142,6 +142,9 @@ app.use(cookieParser())
 
 
 app.use('/api', require('./routes/chatRoutes'))
+
+
+app.use('/api', require('./routes/paymentRoutes'))
 
 app.use('/api/home', require('./routes/home/homeRoutes'))
 app.use('/api', require('./routes/order/orderRoutes'))

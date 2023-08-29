@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 import Stripe from '../components/Stripe'
 import { useLocation } from 'react-router-dom'
 const Payment = () => {
-    const {state : {price,items}} = useLocation()
+    const { state: { price, items, orderId } } = useLocation()
     const [paymentMethod, setPaymentMethod] = useState('stripe')
     return (
         <div>
@@ -42,7 +42,7 @@ const Payment = () => {
                                 </div>
                                 {
                                     paymentMethod === 'stripe' && <div>
-                                        <Stripe />
+                                        <Stripe orderId={orderId} price={price} />
                                     </div>
                                 }
                                 {
@@ -68,11 +68,11 @@ const Payment = () => {
                                     <h2>Order Summary</h2>
                                     <div className='flex justify-between items-center'>
                                         <span>{items} items and shipping fee included</span>
-                                        <span>{price}</span>
+                                        <span>${price}</span>
                                     </div>
                                     <div className='flex justify-between items-center font-semibold'>
                                         <span>Total Amount</span>
-                                        <span className='text-lg text-orange-500'>{price}</span>
+                                        <span className='text-lg text-orange-500'>${price}</span>
                                     </div>
                                 </div>
                             </div>

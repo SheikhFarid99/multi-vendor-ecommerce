@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { useSelector, useDispatch } from 'react-redux'
 import { overrideStyle } from '../../utils/utils'
 import { profile_image_upload, messageClear, profile_info_add } from '../../store/Reducers/authReducer'
+import { create_stripe_connect_account } from '../../store/Reducers/sellerReducer'
 const Profile = () => {
     const [state, setState] = useState({
         division: '',
@@ -16,7 +17,6 @@ const Profile = () => {
     })
     const dispatch = useDispatch()
     const { userInfo, loader, successMessage } = useSelector(state => state.auth)
-    const status = 'active'
 
     const add_image = (e) => {
         if (e.target.files.length > 0) {
@@ -97,7 +97,7 @@ const Profile = () => {
                                     <span>Payment Account : </span>
                                     <p>
                                         {
-                                            status === 'active' ? <span className='bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded '>{userInfo.payment}</span> : <span className='bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded '>
+                                            userInfo.payment === 'active' ? <span className='bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded '>{userInfo.payment}</span> : <span onClick={() => dispatch(create_stripe_connect_account())} className='bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded '>
                                                 click active
                                             </span>
                                         }
