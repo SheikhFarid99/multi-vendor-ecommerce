@@ -6,7 +6,6 @@ const CheckoutForm = ({ orderId }) => {
     localStorage.setItem('orderId', orderId)
     const stripe = useStripe()
     const elements = useElements()
-    const [email, setEmail] = useState('')
     const [message, setMessage] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 

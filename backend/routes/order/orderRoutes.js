@@ -7,6 +7,7 @@ router.get('/home/customer/gat-dashboard-data/:userId', orderController.get_cust
 router.get('/home/customer/gat-orders/:customerId/:status', orderController.get_orders)
 router.get('/home/customer/gat-order/:orderId', orderController.get_order)
 router.post('/order/create-payment', orderController.create_payment)
+router.get('/order/confirm/:orderId', orderController.order_confirm)
 
 // --- admin
 router.get('/admin/orders', orderController.get_admin_orders)
