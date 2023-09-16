@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GrMail } from 'react-icons/gr'
 import { IoIosCall } from 'react-icons/io'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { FaLinkedinIn, FaFacebookF, FaUser, FaLock, FaList } from 'react-icons/fa'
 import { AiOutlineTwitter, AiFillGithub, AiFillHeart, AiFillShopping } from 'react-icons/ai'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { get_card_products, get_wishlist_products } from '../store/reducers/cardReducer'
 
 const Headers = () => {
 
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const { categorys } = useSelector(state => state.home)
     const { userInfo } = useSelector(state => state.auth)
-    const { card_product_count } = useSelector(state => state.card)
+    const { card_product_count, wishlist_count } = useSelector(state => state.card)
 
     const { pathname } = useLocation()
     const [showShidebar, setShowShidebar] = useState(true);
     const [categoryShow, setCategoryShow] = useState(true)
-    const user = false
-    const wishlist = 4
     const [searchValue, setSearchValue] = useState('')
     const [category, setCategory] = useState('')
 
@@ -32,6 +32,13 @@ const Headers = () => {
             navigate(`/login`)
         }
     }
+
+    useEffect(() => {
+        if (userInfo) {
+            dispatch(get_card_products(userInfo.id))
+            dispatch(get_wishlist_products(userInfo.id))
+        }
+    }, [userInfo])
     return (
         <div className='w-full bg-white'>
             <div className='header-top bg-[#eeeeee] md-lg:hidden'>
@@ -108,11 +115,13 @@ const Headers = () => {
                                 </ul>
                                 <div className='flex md-lg:hidden justify-center items-center gap-5'>
                                     <div className='flex justify-center gap-5'>
-                                        <div className='relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]'>
+                                        <div onClick={()=>navigate(userInfo ? '/dashboard/my-wishlist' : '/login')} className='relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]'>
                                             <span className='text-xl text-red-500'><AiFillHeart /></span>
-                                            <div className='w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]'>
-                                                {wishlist}
-                                            </div>
+                                            {
+                                                wishlist_count !== 0 && <div className='w-[20px] h-[20px] absolute bg-green-500 rounded-full text-white flex justify-center items-center -top-[3px] -right-[5px]'>
+                                                    {wishlist_count}
+                                                </div>
+                                            }
                                         </div>
                                         <div onClick={redirect_card_page} className='relative flex justify-center items-center cursor-pointer w-[35px] h-[35px] rounded-full bg-[#e2e2e2]'>
                                             <span className='text-xl text-orange-500'><AiFillShopping /></span>
