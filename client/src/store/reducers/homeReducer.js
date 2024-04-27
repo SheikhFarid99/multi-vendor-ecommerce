@@ -68,6 +68,22 @@ export const price_range_product = createAsyncThunk(
     }
 )
 
+export const get_banners = createAsyncThunk(
+    'product/get_banners',
+    async (_, {
+        fulfillWithValue
+    }) => {
+        try {
+            const {
+                data
+            } = await api.get('/banners')
+            return fulfillWithValue(data)
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+)
+
 export const query_products = createAsyncThunk(
     'product/query_products',
     async (query, {
@@ -139,9 +155,10 @@ export const homeReducer = createSlice({
         moreProducts: [],
         successMessage: '',
         errorMessage: '',
-        totalReview : 0,
-        rating_review : [],
-        reviews : []
+        totalReview: 0,
+        rating_review: [],
+        reviews: [],
+        banners: []
     },
     reducers: {
         messageClear: (state, _) => {
@@ -194,6 +211,11 @@ export const homeReducer = createSlice({
             state.reviews = payload.reviews
             state.totalReview = payload.totalReview
             state.rating_review = payload.rating_review
+        },
+        [get_banners.fulfilled]: (state, {
+            payload
+        }) => {
+            state.banners = payload.banners
         },
 
     }

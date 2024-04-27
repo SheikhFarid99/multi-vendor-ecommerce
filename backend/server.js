@@ -145,6 +145,7 @@ app.use('/api', require('./routes/chatRoutes'))
 
 
 app.use('/api', require('./routes/paymentRoutes'))
+app.use('/api', require('./routes/bannerRoutes'))
 app.use('/api', require('./routes/dashboard/dashboardIndexRoutes'))
 
 app.use('/api/home', require('./routes/home/homeRoutes'))

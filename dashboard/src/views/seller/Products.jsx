@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { GiKnightBanner } from 'react-icons/gi'
 import { useSelector, useDispatch } from 'react-redux'
 import Pagination from '../Pagination'
 import Search from '../components/Search'
@@ -73,6 +74,7 @@ const Products = () => {
                                             <Link to={`/seller/dashboard/edit-product/${d._id}`} className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50'><FaEdit /></Link>
                                             <Link className='p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50'><FaEye /></Link>
                                             <button className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash /></button>
+                                            <Link to={`/seller/dashboard/add-banner/${d._id}`} className='p-[6px] bg-cyan-500 rounded hover:shadow-lg hover:shadow-cyan-500/50'><GiKnightBanner /></Link>
                                         </div>
                                     </td>
                                 </tr>)

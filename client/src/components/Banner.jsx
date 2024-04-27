@@ -1,8 +1,15 @@
 import React from 'react'
 import Carousel from 'react-multi-carousel'
-import  'react-multi-carousel/lib/styles.css'
+import 'react-multi-carousel/lib/styles.css'
 import { Link } from 'react-router-dom'
+import { get_banners } from '../store/reducers/homeReducer'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
 const Banner = () => {
+
+    const dispatch = useDispatch()
+    const { banners } = useSelector(state => state.home)
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -21,6 +28,10 @@ const Banner = () => {
             items: 1
         }
     }
+
+    useEffect(() => {
+        dispatch(get_banners())
+    }, [])
     return (
         <div className='w-full md-lg:mt-6'>
             <div className='w-[85%] lg:w-[90%] mx-auto'>
@@ -35,8 +46,8 @@ const Banner = () => {
                                 responsive={responsive}
                             >
                                 {
-                                    [1, 2, 3, 4, 5, 6, 7].map((img, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to='#'>
-                                        <img src={`http://localhost:3000/images/banner/${img}.jpg`} alt="" />
+                                    banners.length > 0 && banners.map((b, i) => <Link className='lg-md:h-[440px] h-auto w-full block' key={i} to={`/product/details/${b.link}`}>
+                                        <img src={b.banner} alt="" />
                                     </Link>)
                                 }
                             </Carousel>

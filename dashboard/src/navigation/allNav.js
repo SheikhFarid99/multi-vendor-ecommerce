@@ -1,8 +1,8 @@
-import { AiFillDashboard, AiOutlineShoppingCart,AiOutlinePlus } from 'react-icons/ai'
+import { AiFillDashboard, AiOutlineShoppingCart, AiOutlinePlus } from 'react-icons/ai'
 import { BiCategory, BiLoaderCircle } from 'react-icons/bi'
 import { FiUsers } from 'react-icons/fi'
 import { CiChat1 } from 'react-icons/ci'
-import { BsCurrencyDollar,BsChat } from 'react-icons/bs'
+import { BsCurrencyDollar, BsChat } from 'react-icons/bs'
 import { RiProductHuntLine } from 'react-icons/ri'
 export const allNav = [
     {
@@ -82,6 +82,14 @@ export const allNav = [
         role: 'seller',
         path: '/seller/dashboard/products'
     },
+    {
+        id: 11,
+        title: 'All Banner',
+        icon: <RiProductHuntLine />,
+        role: 'seller',
+        path: '/seller/dashboard/banners'
+    },
+
     {
         id: 12,
         title: 'Discount Product',
