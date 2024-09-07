@@ -112,5 +112,5 @@ export const sellerRoutes = [
         element: <Banners />,
         role: 'seller',
         status: 'active'
-    }
+    },
 ]

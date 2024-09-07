@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react'
 import { send_message_seller_admin, messageClear, get_seller_message, updateAdminMessage } from '../../store/Reducers/chatReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { socket } from '../../utils/utils'
+import adminImage from '../../assets/admin.jpg'
+import sellerImage from '../../assets/seller.png'
 
 const SellerToAdmin = () => {
 
@@ -51,7 +53,7 @@ const SellerToAdmin = () => {
                         <div className='flex justify-between items-center'>
                             <div className='flex justify-start items-center gap-3'>
                                 <div className='relative'>
-                                    <img className='w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[2px] rounded-full' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                    <img className='w-[42px] h-[42px] border-green-500 border-2 max-w-[42px] p-[2px] rounded-full' src={adminImage} alt="" />
                                     {
                                         activeAdmin && <div className='w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0'></div>
                                     }
@@ -69,7 +71,7 @@ const SellerToAdmin = () => {
                                                 <div ref={scrollRef} key={i} className='w-full flex justify-start items-center'>
                                                     <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                                         <div>
-                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src={adminImage} alt="image" />
                                                         </div>
                                                         <div className='flex justify-center items-start flex-col w-full bg-orange-500 shadow-lg shadow-orange-500/50 text-white py-1 px-2 rounded-sm'>
                                                             <span>{m.message}</span>
@@ -85,7 +87,7 @@ const SellerToAdmin = () => {
                                                             <span>{m.message}</span>
                                                         </div>
                                                         <div>
-                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src={userInfo.image ? userInfo.image : sellerImage} alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,7 +98,7 @@ const SellerToAdmin = () => {
                             </div>
                         </div>
                         <form onSubmit={send} className='flex gap-3'>
-                            <input value={text} onChange={(e) => setText(e.target.value)} className='w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]' type="text" placeholder='input your message' />
+                            <input required value={text} onChange={(e) => setText(e.target.value)} className='w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]' type="text" placeholder='input your message' />
                             <button className='shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center'>Send</button>
                         </form>
                     </div>

@@ -1,12 +1,14 @@
-import React, { useEffect, useState,useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { IoMdClose } from 'react-icons/io'
 import { FaList } from 'react-icons/fa'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { get_sellers } from '../../store/Reducers/chatReducer'
 import { BsEmojiSmile } from 'react-icons/bs'
+import adminImage from '../../assets/admin.jpg'
+import sellerImage from '../../assets/seller.png'
 import toast from 'react-hot-toast'
-import { send_message_seller_admin, messageClear, get_admin_message ,updateSellerMessage} from '../../store/Reducers/chatReducer'
+import { send_message_seller_admin, messageClear, get_admin_message, updateSellerMessage } from '../../store/Reducers/chatReducer'
 import { socket } from '../../utils/utils'
 
 const ChatSeller = () => {
@@ -58,9 +60,9 @@ const ChatSeller = () => {
 
     useEffect(() => {
         if (recevedMessage) {
-            if (recevedMessage.senderId === sellerId && recevedMessage.receverId === ''){
+            if (recevedMessage.senderId === sellerId && recevedMessage.receverId === '') {
                 dispatch(updateSellerMessage(recevedMessage))
-            }else{
+            } else {
                 toast.success(recevedMessage.senderName + ' send a message')
             }
         }
@@ -82,9 +84,9 @@ const ChatSeller = () => {
                                 <span onClick={() => setShow(!show)} className='block cursor-pointer md:hidden'><IoMdClose /></span>
                             </div>
                             {
-                                sellers.map((s, i) => <Link key={i} to={`/admin/dashboard/chat-sellers/${s._id}`} className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 rounded-sm cursor-pointer ${sellerId === s._id ? 'bg-slate-700' : ''}`}>
+                                sellers.map((s, i) => <Link key={i} to={`/admin/dashboard/chat-sellers/${s._id}`} className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 rounded-sm py-2 cursor-pointer ${sellerId === s._id ? 'bg-slate-700' : ''}`}>
                                     <div className='relative'>
-                                        <img className='w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full' src={s.image} alt="" />
+                                        <img className='w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full' src={s.image ? s.image : sellerImage} alt="" />
                                         {
                                             activeSellers.some(a => a.sellerId === s._id) && <div className='w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0'></div>
                                         }
@@ -104,7 +106,7 @@ const ChatSeller = () => {
                             {
                                 sellerId && <div className='flex justify-start items-center gap-3'>
                                     <div className='relative'>
-                                        <img className='w-[42px] h-[42px] border-green-500 border-2 max-w-[38px] p-[2px] rounded-full' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                        <img className='w-[42px] h-[42px] border-green-500 border-2  p-[2px] rounded-full' src={currentSeller.image ? currentSeller.image : sellerImage} alt="" />
                                         <div className='w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0'></div>
                                     </div>
                                     <span className='text-white'>{currentSeller?.name}</span>
@@ -123,7 +125,7 @@ const ChatSeller = () => {
                                                 <div ref={scrollRef} className='w-full flex justify-start items-center'>
                                                     <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                                         <div>
-                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src={currentSeller?.image ? currentSeller?.image : sellerImage} alt="" />
                                                         </div>
                                                         <div className='flex justify-center items-start flex-col w-full bg-orange-500 shadow-lg shadow-orange-500/50 text-white py-1 px-2 rounded-sm'>
                                                             <span>{m.message}</span>
@@ -139,7 +141,7 @@ const ChatSeller = () => {
                                                             <span>{m.message}</span>
                                                         </div>
                                                         <div>
-                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src="http://localhost:3000/images/admin.jpg" alt="" />
+                                                            <img className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src={userInfo.image ? userInfo.image : adminImage} alt="" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,7 +155,7 @@ const ChatSeller = () => {
                             </div>
                         </div>
                         <form onSubmit={send} className='flex gap-3'>
-                            <input value={text} onChange={(e) => setText(e.target.value)} readOnly={sellerId ? false : true} className='w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]' type="text" placeholder='input your message' />
+                            <input required value={text} onChange={(e) => setText(e.target.value)} readOnly={sellerId ? false : true} className='w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]' type="text" placeholder='input your message' />
                             <button disabled={sellerId ? false : true} className='shadow-lg bg-cyan-500 hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center'>Send</button>
                         </form>
                     </div>

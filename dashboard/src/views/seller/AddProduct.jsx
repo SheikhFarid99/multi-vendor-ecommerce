@@ -8,10 +8,12 @@ import { PropagateLoader } from 'react-spinners'
 import { overrideStyle } from '../../utils/utils'
 import { get_category } from '../../store/Reducers/categoryReducer'
 import { add_product, messageClear } from '../../store/Reducers/productReducer'
+
 const AddProduct = () => {
     const dispatch = useDispatch()
     const { categorys } = useSelector(state => state.category)
     const { successMessage, errorMessage, loader } = useSelector(state => state.product)
+    const { userInfo } = useSelector(state => state.auth)
     useEffect(() => {
         dispatch(get_category({
             searchValue: '',
@@ -97,7 +99,7 @@ const AddProduct = () => {
         formData.append('stock', state.stock)
         formData.append('category', category)
         formData.append('discount', state.discount)
-        formData.append('shopName', 'Farid Fashoin')
+        formData.append('shopName', userInfo?.shopInfo?.shopName)
         formData.append('brand', state.brand)
         for (let i = 0; i < images.length; i++) {
             formData.append('images', images[i])
@@ -126,7 +128,7 @@ const AddProduct = () => {
 
         }
     }, [successMessage, errorMessage])
-
+    
     return (
         <div className='px-2 lg:px-7 pt-5 '>
             <div className='w-full p-4  bg-[#283046] rounded-md'>

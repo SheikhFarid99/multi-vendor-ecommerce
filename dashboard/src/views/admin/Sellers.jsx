@@ -54,7 +54,7 @@ const Sellers = () => {
                                 sellers.map((d, i) => <tr key={i}>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{i + 1}</td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
-                                        <img className='w-[45px] h-[45px]' src={`http://localhost:3000/images/category/${d.image}.jpg`} alt="" />
+                                        <img className='w-[45px] h-[45px]' src={`${d.image}`} alt="" />
                                     </td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                         <span>{d.name}</span>
