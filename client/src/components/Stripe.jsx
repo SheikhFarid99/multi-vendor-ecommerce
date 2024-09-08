@@ -5,8 +5,10 @@ import { Elements } from '@stripe/react-stripe-js'
 import axios from 'axios'
 import { useState } from 'react'
 import CheckoutForm from './CheckoutForm'
+import { stripe_sky } from '../utils/config'
 
-const stripePromise = loadStripe('pk_test_51Nk8Y4F0B89ncn3xWB6ZN3GsbVIVL7Jqfa3jxtIOpPkKHcleHZw4EMPJKd4cRwm34ZARBeYmAWwu3VxyYL1gb6OT00UKNSvfvb')
+const stripePromise = loadStripe(stripe_sky)
+
 const Stripe = ({ price, orderId }) => {
     const [clientSecret, setClientSecret] = useState('')
     const apperance = {

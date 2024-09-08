@@ -5,8 +5,9 @@ import axios from 'axios'
 import { loadStripe } from '@stripe/stripe-js'
 import error from '../assets/error.png'
 import success from '../assets/success.png'
+import { stripe_sky } from '../utils/config'
 const load = async () => {
-    return await loadStripe('pk_test_51Nk8Y4F0B89ncn3xWB6ZN3GsbVIVL7Jqfa3jxtIOpPkKHcleHZw4EMPJKd4cRwm34ZARBeYmAWwu3VxyYL1gb6OT00UKNSvfvb')
+    return await loadStripe(stripe_sky)
 }
 
 const ConfirmOrder = () => {

@@ -58,9 +58,9 @@ const Products = ({ title, products }) => {
                                     p.map((pl, j) => <Link key={j} className='flex justify-start items-start' to='#'>
                                         <img className='w-[80px] h-[80px]' src={pl.images[0]} alt="images" />
                                         <div className='px-3 flex justify-start items-start gap-1 flex-col text-slate-600'>
-                                            <h2 className='text-[13px]'>{pl.name}</h2>
+                                            <h2 className='text-[13px]'>{pl.name?.slice(0, 40)}</h2>
                                             <span className='text-md font-bold'>${pl.price}</span>
-                                            <p className='text-[13px]'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic</p>
+                                            <p className='text-[13px]'>{pl.description?.slice(0, 50)}...</p>
                                         </div>
 
                                     </Link>)

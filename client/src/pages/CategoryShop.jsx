@@ -33,7 +33,7 @@ const CategoryShops = () => {
     }, [])
     useEffect(() => {
         setState({
-            values: [priceRange.low, priceRange.high]
+            values: [priceRange.low, priceRange.high === priceRange.low ? priceRange.high + 1 : priceRange.hight]
         })
     }, [priceRange])
 
@@ -88,9 +88,9 @@ const CategoryShops = () => {
                             <div className='py-2 flex flex-col gap-5'>
                                 <h2 className='text-3xl font-bold mb-3 text-slate-600'>Price</h2>
                                 <Range
-                                    step={5}
+                                    step={1}
                                     min={priceRange.low}
-                                    max={priceRange.high}
+                                    max={priceRange.high === priceRange.low ? priceRange.high + 1 : priceRange.hight}
                                     values={state.values}
                                     onChange={(values) => setState({ values })}
                                     renderTrack={({ props, children }) => (

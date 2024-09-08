@@ -6,7 +6,7 @@ const withdrowRequest = require('../../models/withdrowRequest')
 const { responseReturn } = require('../../utiles/response')
 const { mongo: { ObjectId } } = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
-const stripe = require('stripe')('sk_test_51Nk8Y4F0B89ncn3xMHxYCwnaouDR6zuX83ckbJivv2jOUJ9CTka6anJcKMLnatgeBUeQq1RcRYynSPgp6f5zS4qF00YZFMYHuD')
+const stripe = require('stripe')(process.env.stripe_key)
 class paymentController {
     create_stripe_connect_account = async (req, res) => {
         const { id } = req
@@ -138,7 +138,7 @@ class paymentController {
 
     withdrowal_request = async (req, res) => {
         const { amount, sellerId } = req.body
-        console.log(req.body)
+        
         try {
             const withdrowal = await withdrowRequest.create({
                 sellerId,

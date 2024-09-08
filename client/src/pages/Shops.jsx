@@ -105,7 +105,7 @@ const Shops = () => {
                             <div className='py-2 flex flex-col gap-5'>
                                 <h2 className='text-xl font-bold mb-3 text-slate-600'>Price</h2>
                                 <Range
-                                    step={5}
+                                    step={1}
                                     min={priceRange.low}
                                     max={priceRange.high === priceRange.low ? priceRange.high + 1 : priceRange.hight}
                                     values={state.values}
