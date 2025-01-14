@@ -7,22 +7,28 @@ const { responseReturn } = require('../../utiles/response')
 const { mongo: { ObjectId } } = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
 const stripe = require('stripe')(process.env.stripe_key)
+const mode = process.env.mode
 class paymentController {
+
     create_stripe_connect_account = async (req, res) => {
+        
         const { id } = req
         const uid = uuidv4()
+
+       
 
         try {
             const stripInfo = await striptModel.findOne({ sellerId: id })
 
             if (stripInfo) {
+
                 await striptModel.deleteOne({ sellerId: id })
                 const account = await stripe.accounts.create({ type: 'express' })
 
                 const accountLink = await stripe.accountLinks.create({
                     account: account.id,
-                    refresh_url: 'http://localhost:3001/refresh',
-                    return_url: `http://localhost:3001/success?activeCode=${uid}`,
+                    refresh_url: mode === 'production' ? `${process.env.admin_panel_production_url}/refresh` : `${process.env.admin_panel_lcoal_url}/refresh`,
+                    return_url: mode === 'production' ? `${process.env.admin_panel_production_url}/success?activeCode=${uid}` : `${process.env.admin_panel_lcoal_url}/success?activeCode=${uid}`,
                     type: 'account_onboarding'
                 })
                 await striptModel.create({
@@ -31,13 +37,14 @@ class paymentController {
                     code: uid
                 })
                 responseReturn(res, 201, { url: accountLink.url })
+
             } else {
                 const account = await stripe.accounts.create({ type: 'express' })
 
                 const accountLink = await stripe.accountLinks.create({
                     account: account.id,
-                    refresh_url: 'http://localhost:3001/refresh',
-                    return_url: `http://localhost:3001/success?activeCode=${uid}`,
+                    refresh_url: mode === 'production' ? `${process.env.admin_panel_production_url}/refresh` : `${process.env.admin_panel_lcoal_url}/refresh`,
+                    return_url: mode === 'production' ? `${process.env.admin_panel_production_url}/success?activeCode=${uid}` : `${process.env.admin_panel_lcoal_url}/success?activeCode=${uid}`,
                     type: 'account_onboarding'
                 })
                 await striptModel.create({
@@ -138,7 +145,7 @@ class paymentController {
 
     withdrowal_request = async (req, res) => {
         const { amount, sellerId } = req.body
-        
+
         try {
             const withdrowal = await withdrowRequest.create({
                 sellerId,

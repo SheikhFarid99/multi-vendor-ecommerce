@@ -2,24 +2,28 @@ const express = require('express')
 const {
     dbConnect
 } = require('./utiles/db')
+
 const app = express()
 const cors = require('cors')
 const http = require('http')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 require('dotenv').config()
+
 const socket = require('socket.io')
+
+const mode = process.env.mode
 
 const server = http.createServer(app)
 
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: mode === 'production' ? ['http://localhost:3000', 'http://localhost:3001'] : ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true
 }))
 
 const io = socket(server, {
     cors: {
-        origin: '*',
+        origin: mode === 'production' ? ['http://localhost:3000', 'http://localhost:3001'] : ['http://localhost:3000', 'http://localhost:3001'],
         credentials: true
     }
 })
@@ -157,6 +161,7 @@ app.use('/api', require('./routes/dashboard/sellerRoutes'))
 app.use('/api', require('./routes/dashboard/categoryRoutes'))
 app.use('/api', require('./routes/dashboard/productRoutes'))
 app.get('/', (req, res) => res.send('Hello World!'))
+
 const port = process.env.PORT
 dbConnect()
 server.listen(port, () => console.log(`Server is running on port ${port}!`))
