@@ -16,7 +16,7 @@ const mode = dev
 let app_url, api_url
 
 if (mode === production) {
-    app_url = "http://localhost:3001"
+    app_url = "https://dashboard-ecommerce-two.vercel.app"
     api_url = "https://api-ecommerce-fos4.onrender.com"
 } else {
     app_url = 'http://localhost:3001'
