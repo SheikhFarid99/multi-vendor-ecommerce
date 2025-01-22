@@ -16,8 +16,8 @@ const mode = dev
 let app_url, api_url
 
 if (mode === production) {
-    app_url = ""
-    api_url = ""
+    app_url = "http://localhost:3001"
+    api_url = "https://api-ecommerce-fos4.onrender.com"
 } else {
     app_url = 'http://localhost:3001'
     api_url = 'http://localhost:5000'
