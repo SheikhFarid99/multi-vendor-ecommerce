@@ -3,9 +3,11 @@ import { FaList } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import sellerImage from '../assets/seller.png'
 import adminImage from '../assets/admin.jpg'
+
 const Header = ({ showSidebar, setShowSidebar }) => {
 
     const { userInfo } = useSelector(state => state.auth)
+
     return (
         <div className='fixed top-0 left-0 w-full py-5 px-2 lg:px-7 z-40'>
             <div className='ml-0 lg:ml-[260px] rounded-md h-[65px] flex justify-between items-center bg-[#283046] text-[#d0d2d6] px-5 transition-all'>

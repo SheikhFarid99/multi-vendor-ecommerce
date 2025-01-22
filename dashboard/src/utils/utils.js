@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-export const overrideStyle = {
+const overrideStyle = {
     display: 'flex',
     margin: '0 auto',
     height: '24px',
@@ -7,4 +7,27 @@ export const overrideStyle = {
     alignItems: "center"
 }
 
-export const socket = io('http://localhost:5000')
+
+const production = 'production'
+const dev = 'dev'
+
+const mode = dev
+
+let app_url, api_url
+
+if (mode === production) {
+    app_url = ""
+    api_url = ""
+} else {
+    app_url = 'http://localhost:3001'
+    api_url = 'http://localhost:5000'
+}
+
+const socket = io(api_url)
+
+export {
+    socket,
+    app_url,
+    api_url,
+    overrideStyle
+}

@@ -1,12 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import api from '../../api/api'
+import axios from 'axios'
+import { api_url } from '../../utils/utils'
 
 export const get_seller_dashboard_index_data = createAsyncThunk(
     'dashboardIndex/get_seller_dashboard_index_data',
-    async (_, { rejectWithValue, fulfillWithValue }) => {
+    async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.get(`/seller/get-dashboard-index-data`, { withCredentials: true })
-            console.log(data)
+            const { data } = await axios.get(`${api_url}/api/seller/get-dashboard-index-data`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -16,10 +22,15 @@ export const get_seller_dashboard_index_data = createAsyncThunk(
 
 export const get_admin_dashboard_index_data = createAsyncThunk(
     'dashboardIndex/get_admin_dashboard_index_data',
-    async (_, { rejectWithValue, fulfillWithValue }) => {
+    async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.get(`/admin/get-dashboard-index-data`, { withCredentials: true })
-            console.log(data)
+            const { data } = await axios.get(`${api_url}/api/admin/get-dashboard-index-data`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -47,7 +58,7 @@ export const dashboardIndexReducer = createSlice({
         }
     },
     extraReducers: {
-        [get_seller_dashboard_index_data.fulfilled] : (state,{payload})=>{
+        [get_seller_dashboard_index_data.fulfilled]: (state, { payload }) => {
             state.totalSale = payload.totalSale
             state.totalOrder = payload.totalOrder
             state.totalProduct = payload.totalProduct
@@ -55,7 +66,7 @@ export const dashboardIndexReducer = createSlice({
             state.recentOrders = payload.recentOrders
             state.recentMessage = payload.messages
         },
-        [get_admin_dashboard_index_data.fulfilled] : (state,{payload})=>{
+        [get_admin_dashboard_index_data.fulfilled]: (state, { payload }) => {
             state.totalSale = payload.totalSale
             state.totalOrder = payload.totalOrder
             state.totalProduct = payload.totalProduct

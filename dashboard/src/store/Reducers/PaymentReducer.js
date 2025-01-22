@@ -1,11 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import api from '../../api/api'
+import axios from 'axios'
+import { api_url } from '../../utils/utils'
 
 export const get_seller_payemt_details = createAsyncThunk(
     'payment/get_seller_payemt_details',
-    async (sellerId, { rejectWithValue, fulfillWithValue }) => {
+    async (sellerId, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.get(`/payment/seller-payment-details/${sellerId}`, { withCredentials: true })
+            const { data } = await axios.get(`${api_url}/api/payment/seller-payment-details/${sellerId}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -15,9 +22,15 @@ export const get_seller_payemt_details = createAsyncThunk(
 
 export const send_withdrowal_request = createAsyncThunk(
     'payment/send_withdrowal_request',
-    async (info, { rejectWithValue, fulfillWithValue }) => {
+    async (info, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.post(`/payment/withdrowal-request`, info, { withCredentials: true })
+            const { data } = await axios.post(`${api_url}/api/payment/withdrowal-request`, info, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -28,9 +41,15 @@ export const send_withdrowal_request = createAsyncThunk(
 
 export const get_payment_request = createAsyncThunk(
     'payment/get_payment_request',
-    async (_, { rejectWithValue, fulfillWithValue }) => {
+    async (_, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.get(`/payment/request`, { withCredentials: true })
+            const { data } = await axios.get(`${api_url}/api/payment/request`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -40,9 +59,15 @@ export const get_payment_request = createAsyncThunk(
 
 export const confirm_payment_request = createAsyncThunk(
     'payment/confirm_payment_request',
-    async (paymentId, { rejectWithValue, fulfillWithValue }) => {
+    async (paymentId, { rejectWithValue, fulfillWithValue, getState }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
         try {
-            const { data } = await api.post(`/payment/request-confirm`, { paymentId }, { withCredentials: true })
+            const { data } = await axios.post(`${api_url}/api/payment/request-confirm`, { paymentId }, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -109,7 +134,7 @@ export const PaymentReducer = createSlice({
             state.errorMessage = payload.message
         },
         [confirm_payment_request.fulfilled]: (state, { payload }) => {
-            const temp = state.pendingWithdrows.filter(r=>r._id !== payload.payment._id)
+            const temp = state.pendingWithdrows.filter(r => r._id !== payload.payment._id)
             state.loader = false
             state.successMessage = payload.message
             state.pendingWithdrows = temp

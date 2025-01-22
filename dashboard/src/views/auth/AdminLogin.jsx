@@ -46,7 +46,7 @@ const AdminLogin = () => {
                 <div className='bg-[#283046] p-4 rounded-md'>
                     <div className='h-[70px] flex justify-center items-center'>
                         <div className='w-[180px] h-[50px]'>
-                            <img className='w-full h-full' src="http://localhost:3000/images/logo.png" alt="image" />
+                            <img className='w-full h-full' src="/images/logo.png" alt="image" />
                         </div>
                     </div>
                     <form onSubmit={submit}>

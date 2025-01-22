@@ -82,13 +82,13 @@ export const allNav = [
         role: 'seller',
         path: '/seller/dashboard/products'
     },
-    {
-        id: 11,
-        title: 'All Banner',
-        icon: <RiProductHuntLine />,
-        role: 'seller',
-        path: '/seller/dashboard/banners'
-    },
+    // {
+    //     id: 11,
+    //     title: 'All Banner',
+    //     icon: <RiProductHuntLine />,
+    //     role: 'seller',
+    //     path: '/seller/dashboard/banners'
+    // },
 
     {
         id: 12,

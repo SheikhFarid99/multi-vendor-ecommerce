@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import store from './store/index'
 import { Provider } from 'react-redux'
 import './index.css';
+import Loading from './views/components/Loading'
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'
 const App = lazy(() => import('./App'))
@@ -11,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Suspense fallback='loading...'>
+      <Suspense fallback={<Loading />}>
         <App />
         <Toaster
           toastOptions={{
