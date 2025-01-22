@@ -9,7 +9,7 @@ const overrideStyle = {
 
 
 const production = 'production'
-const dev = 'dev'
+const dev = production
 
 const mode = dev
 
