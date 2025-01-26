@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { PropagateLoader } from 'react-spinners'
 import toast from 'react-hot-toast'
 import { get_category } from '../../store/Reducers/categoryReducer'
-import { get_product, messageClear, update_product,product_image_update } from '../../store/Reducers/productReducer'
+import { get_product, messageClear, update_product, product_image_update } from '../../store/Reducers/productReducer'
+import JoditEditor from 'jodit-react';
 import { BsImages } from 'react-icons/bs'
 import { IoCloseSharp } from 'react-icons/io5'
 import { overrideStyle } from '../../utils/utils'
 const EditProduct = () => {
+
+    const editor = useRef(null);
+    const [content, setContent] = useState('');
+
     const { productId } = useParams()
     const dispatch = useDispatch()
     const { categorys } = useSelector(state => state.category)
@@ -74,6 +79,7 @@ const EditProduct = () => {
             brand: product.brand,
             stock: product.stock
         })
+        setContent(product.description)
         setCategory(product.category)
         setImageShow(product.images)
     }, [product])
@@ -166,7 +172,15 @@ const EditProduct = () => {
                         </div>
                         <div className='flex flex-col w-full gap-1 text-[#d0d2d6] mb-5'>
                             <label htmlFor="description">Description</label>
-                            <textarea rows={4} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' onChange={inputHandle} value={state.description} placeholder='description' name='description' id='description'></textarea>
+                            <JoditEditor
+
+                                ref={editor}
+                                value={content}
+                                // config={config}
+                                tabIndex={1} // tabIndex of textarea
+                                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                                onChange={newContent => { }}
+                            />
                         </div>
                         <div className='grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4'>
                             {

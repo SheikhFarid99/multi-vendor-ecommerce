@@ -7,6 +7,7 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
+import htmlParser from 'html-react-parser'
 import { useDispatch, useSelector } from 'react-redux'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
@@ -153,7 +154,7 @@ const Details = () => {
     return (
         <div>
             <Headers />
-            <div className='bg-[url("http://localhost:3000/images/banner/order.jpg")] h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
+            <div style={{background : 'url("/images/banner/order.jpg")'}} className=' h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
                 <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
                     <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
                         <div className='flex flex-col justify-center gap-1 items-center h-full w-full text-white'>
@@ -219,9 +220,9 @@ const Details = () => {
                                     </> : <h2>Price : ${product.price}</h2>
                                 }
                             </div>
-                            <div className='text-slate-600'>
+                            {/* <div className='text-slate-600'>
                                 <p>{product.description}</p>
-                            </div>
+                            </div> */}
                             <div className='flex gap-3 pb-10 border-b'>
                                 {
                                     product.stock ? <>
@@ -287,7 +288,7 @@ const Details = () => {
                                 </div>
                                 <div>
                                     {
-                                        state === 'reviews' ? <Reviews product={product} /> : <p className='py-5 text-slate-600'>{product.description}</p>
+                                        state === 'reviews' ? <Reviews product={product} /> : <p className='py-5 text-slate-600'>{htmlParser(product.description)}</p>
                                     }
                                 </div>
                             </div>

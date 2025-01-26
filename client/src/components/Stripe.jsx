@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import CheckoutForm from './CheckoutForm'
 import { stripe_sky } from '../utils/config'
-
+import { api_url } from '../utils/config'
 const stripePromise = loadStripe(stripe_sky)
 
 const Stripe = ({ price, orderId }) => {
@@ -20,7 +20,7 @@ const Stripe = ({ price, orderId }) => {
     }
     const create_payment = async () => {
         try {
-            const { data } = await axios.post('http://localhost:5000/api/order/create-payment', { price }, { withCredentials: true })
+            const { data } = await axios.post(`${api_url}/api/order/create-payment`, { price }, { withCredentials: true })
             setClientSecret(data.clientSecret)
         } catch (error) {
             console.log(error.response.data)

@@ -17,8 +17,8 @@ const Footer = () => {
             <div className='w-[85%] flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6'>
                 <div className='w-3/12 lg:w-4/12 sm:w-full'>
                     <div className='flex flex-col gap-3'>
-                        <img className='w-[190px] h-[70x]' src="http://localhost:3000/images/logo.png" alt="logo" />
-                        <ul className='flex flex-col gap-2 text-slate-600'>
+                        <img className='w-[190px] h-[70x]' src="/images/logo.png" alt="logo" />
+                        <ul className='flex flex-col gap-2 text-slate-700'>
                             <li>Address : Rangpur , Kuigram</li>
                             <li>Phone : 5873458345</li>
                             <li>Email : farid@gmail.com</li>
@@ -30,7 +30,7 @@ const Footer = () => {
                         <div>
                             <h2 className='font-bold text-lg mb-2'>Usefull links</h2>
                             <div className='flex justify-between gap-[80px] lg:gap-[40px]'>
-                                <ul className='flex flex-col gap-2 text-slate-600 text-sm'>
+                                <ul className='flex flex-col gap-2 text-slate-700 text-sm'>
                                     <li>
                                         <Link>About Us</Link>
                                     </li>
@@ -47,7 +47,7 @@ const Footer = () => {
                                         <Link>Blogs</Link>
                                     </li>
                                 </ul>
-                                <ul className='flex flex-col gap-2 text-slate-600 text-sm'>
+                                <ul className='flex flex-col gap-2 text-slate-700 text-sm'>
                                     <li>
                                         <Link>About Us</Link>
                                     </li>
@@ -71,7 +71,7 @@ const Footer = () => {
                 <div className='w-4/12 lg:w-full lg:mt-6'>
                     <div className='w-full flex flex-col justify-start gap-5'>
                         <h2 className='font-bold text-lg mb-2'>Join Our</h2>
-                        <span>Get Email updates about our latest and shop specials offers</span>
+                        <span className='text-slate-700'>Get Email updates about our latest and shop specials offers</span>
                         <div className='h-[50px] w-full bg-white border relative'>
                             <input placeholder='Enter your mail' className='h-full bg-transparent w-full px-3 outline-0' type="text" />
                             <button className='h-full absolute right-0 bg-indigo-500 text-white uppercase px-4 font-bold text-sm'>Subscribe</button>
@@ -93,8 +93,8 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-[85%] flex flex-wrap justify-center items-center text-slate-600 mx-auto py-5 text-center'>
-                <span>Copiright ©2023 All rights reserved | mady by <a className='text-blue-500 underline' href="">@Learn with Project</a></span>
+            <div className='w-[85%] flex flex-wrap justify-center items-center text-slate-700 mx-auto py-5 text-center'>
+                <span>Copyright ©{new Date().getFullYear()} All rights reserved | made by <a className='text-blue-500 underline' href="">@Learn with Project</a></span>
             </div>
 
             <div className='hidden fixed md-lg:block w-[50px] bottom-3 h-[110px] right-2 bg-white rounded-full p-2'>

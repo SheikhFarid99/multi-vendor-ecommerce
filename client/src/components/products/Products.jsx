@@ -1,8 +1,9 @@
 import React from 'react'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import { FiChevronRight, FiChevronLeft } from 'react-icons/fi'
+import { FiChevronLeft } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { convert } from 'html-to-text'
 
 const Products = ({ title, products }) => {
     const responsive = {
@@ -53,14 +54,17 @@ const Products = ({ title, products }) => {
                 {
                     products.map((p, i) => {
                         return (
-                            <div key={i} className='flex flex-col justify-start gap-2'>
+                            <div key={i} className='flex flex-col justify-start gap-2 '>
                                 {
-                                    p.map((pl, j) => <Link key={j} className='flex justify-start items-start' to='#'>
+                                    p.map((pl, j) => <Link key={j} className='flex justify-start items-center' to={`/product/details/${p?.slug}`}>
                                         <img className='w-[80px] h-[80px]' src={pl.images[0]} alt="images" />
                                         <div className='px-3 flex justify-start items-start gap-1 flex-col text-slate-600'>
-                                            <h2 className='text-[13px]'>{pl.name?.slice(0, 40)}</h2>
-                                            <span className='text-md font-bold'>${pl.price}</span>
-                                            <p className='text-[13px]'>{pl.description?.slice(0, 50)}...</p>
+                                            <h2 className='text-[13px] text-gray-800'>{pl.name?.slice(0, 40)}</h2>
+                                            <span className='text-md font-bold text-gray-800'>${pl.price}</span>
+                                            {/* {
+                                                title !== 'Latest Products' && <p className='text-[13px]'>{convert(pl?.description)?.slice(0, 50)}...</p>
+                                            } */}
+
                                         </div>
 
                                     </Link>)

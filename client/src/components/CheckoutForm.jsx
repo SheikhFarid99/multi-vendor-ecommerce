@@ -1,6 +1,7 @@
 import React from 'react'
 import { PaymentElement, LinkAuthenticationElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { useState } from 'react'
+import { app_url } from '../utils/config'
 const CheckoutForm = ({ orderId }) => {
 
     localStorage.setItem('orderId', orderId)
@@ -23,7 +24,7 @@ const CheckoutForm = ({ orderId }) => {
         const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
-                return_url: 'http://localhost:3000/order/confirm'
+                return_url: `${app_url}/order/confirm`
             }
         })
         if (error.type === 'card_error' || error.type === 'validation_error') {

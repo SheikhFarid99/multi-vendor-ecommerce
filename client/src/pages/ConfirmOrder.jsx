@@ -6,6 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import error from '../assets/error.png'
 import success from '../assets/success.png'
 import { stripe_sky } from '../utils/config'
+import {api_url} from '../utils/config'
 const load = async () => {
     return await loadStripe(stripe_sky)
 }
@@ -54,7 +55,7 @@ const ConfirmOrder = () => {
         const orderId = localStorage.getItem('orderId')
         if (orderId) {
             try {
-                await axios.get(`http://localhost:5000/api/order/confirm/${orderId}`)
+                await axios.get(`${api_url}/api/order/confirm/${orderId}`)
                 localStorage.removeItem('orderId')
                 setLoader(false)
             } catch (error) {

@@ -9,9 +9,9 @@ const overrideStyle = {
 
 
 const production = 'production'
-const dev = production
+const dev = 'development'
 
-const mode = dev
+const mode = production
 
 let app_url, api_url
 

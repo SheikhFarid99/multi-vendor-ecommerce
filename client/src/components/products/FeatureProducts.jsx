@@ -71,7 +71,7 @@ const FeatureProducts = ({ products }) => {
                                 <li onClick={() => add_card(p._id)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#7fad39] hover:text-white hover:rotate-[720deg] transition-all'><AiOutlineShoppingCart /></li>
                             </ul>
                         </div>
-                        <div className='py-3 text-slate-600 px-2'>
+                        <div className='py-3 text-gray-700 px-2'>
                             <h2>{p.name}</h2>
                             <div className='flex justify-start items-center gap-3'>
                                 <span className='text-lg  font-bold'>${p.price}</span>

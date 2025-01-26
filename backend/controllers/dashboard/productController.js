@@ -3,6 +3,7 @@ const cloudinary = require('cloudinary').v2
 const productModel = require('../../models/productModel');
 const { responseReturn } = require('../../utiles/response');
 class productController {
+
     add_product = async (req, res) => {
         const { id } = req;
         const form = formidable({ multiples: true })
@@ -11,7 +12,9 @@ class productController {
             let { name, category, description, stock, price, discount, shopName, brand } = field;
             const { images } = files;
             name = name.trim()
+            name = name.replace(/[^a-zA-Z0-9\s-]/g, '')
             const slug = name.split(' ').join('-')
+
 
             cloudinary.config({
                 cloud_name: process.env.cloud_name,
@@ -88,7 +91,9 @@ class productController {
     product_update = async (req, res) => {
         let { name, description, discount, price, brand, productId, stock } = req.body;
         name = name.trim()
+        name = name.replace(/[^a-zA-Z0-9\s-]/g, '')
         const slug = name.split(' ').join('-')
+        
         try {
             await productModel.findByIdAndUpdate(productId, {
                 name, description, discount, price, brand, productId, stock, slug

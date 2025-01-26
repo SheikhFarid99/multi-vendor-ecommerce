@@ -3,12 +3,12 @@ import Headers from '../components/Headers'
 import Footer from '../components/Footer'
 import { FaFacebookF } from 'react-icons/fa'
 import FadeLoader from 'react-spinners/FadeLoader'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AiOutlineGoogle } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 
-import { customer_register,messageClear } from '../store/reducers/authReducer'
+import { customer_register, messageClear } from '../store/reducers/authReducer'
 
 const Register = () => {
 
@@ -36,14 +36,14 @@ const Register = () => {
             toast.success(successMessage)
             dispatch(messageClear())
         }
-        if(errorMessage){
+        if (errorMessage) {
             toast.error(errorMessage)
             dispatch(messageClear())
         }
-        if(userInfo){
+        if (userInfo) {
             navigate('/')
         }
-    }, [successMessage,errorMessage])
+    }, [successMessage, errorMessage])
 
     return (
         <div>
@@ -54,9 +54,9 @@ const Register = () => {
             }
             <Headers />
             <div className='bg-slate-200 mt-4'>
-                <div className='w-full justify-center items-center p-10'>
-                    <div className='grid grid-cols-2 w-[60%] mx-auto bg-white rounded-md'>
-                        <div className='px-8 py-8'>
+                <div className='w-full justify-center items-center p-10 sm:p-5'>
+                    <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1  w-[60%] md-lg:w-full md:w-full sm:w-full mx-auto bg-white rounded-md'>
+                        <div className='px-8 py-8 md-lg:w-full md:w-full sm:w-full'>
                             <h2 className='text-center w-full text-xl text-slate-600 font-bold'>Register</h2>
                             <div>
                                 <form onSubmit={register} className='text-slate-600'>
@@ -89,14 +89,14 @@ const Register = () => {
                                 </button>
                             </div>
                             <div className='text-center text-slate-600 pt-1'>
-                                <p>You have no account ? <Link className='text-blue-500' to='/login'>Login</Link></p>
+                                <p>You have no account ?</p>
                             </div>
                             <div className='text-center text-slate-600 pt-1'>
-                                <p> <a target='_black' className='text-blue-500' href='http://localhost:3001/login'>Login</a> seller account</p>
+                                <p> <Link className='text-blue-500' to='/login'>Login</Link> seller account</p>
                             </div>
                         </div>
-                        <div className='w-full h-full py-4 pr-4'>
-                            <img className='w-full h-[95%]' src="http://localhost:3000/images/login.jpg" alt="" />
+                        <div className='w-full h-full py-4 pr-4 block md:hidden'>
+                            <img className='w-full h-[95%]' src="/images/login.jpg" alt="" />
                         </div>
                     </div>
                 </div>

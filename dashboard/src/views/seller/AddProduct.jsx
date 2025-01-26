@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { BsImages } from 'react-icons/bs'
 import { IoCloseSharp } from 'react-icons/io5'
 import { useSelector, useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import { PropagateLoader } from 'react-spinners'
+import JoditEditor from 'jodit-react';
 import { overrideStyle } from '../../utils/utils'
 import { get_category } from '../../store/Reducers/categoryReducer'
 import { add_product, messageClear } from '../../store/Reducers/productReducer'
 
 const AddProduct = () => {
+
+    const editor = useRef(null);
+    const [content, setContent] = useState('');
+
+    // const config = useMemo(() => ({
+    //     readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+    //     placeholder: placeholder || 'Start typings...'
+    // }),
+    //     [placeholder]
+    // );
+
+
     const dispatch = useDispatch()
     const { categorys } = useSelector(state => state.category)
     const { successMessage, errorMessage, loader } = useSelector(state => state.product)
@@ -94,7 +107,7 @@ const AddProduct = () => {
         e.preventDefault()
         const formData = new FormData()
         formData.append('name', state.name)
-        formData.append('description', state.description)
+        formData.append('description', content)
         formData.append('price', state.price)
         formData.append('stock', state.stock)
         formData.append('category', category)
@@ -128,7 +141,7 @@ const AddProduct = () => {
 
         }
     }, [successMessage, errorMessage])
-    
+
     return (
         <div className='px-2 lg:px-7 pt-5 '>
             <div className='w-full p-4  bg-[#283046] rounded-md'>
@@ -187,7 +200,15 @@ const AddProduct = () => {
                         </div>
                         <div className='flex flex-col w-full gap-1 text-[#d0d2d6] mb-5'>
                             <label htmlFor="description">Description</label>
-                            <textarea rows={4} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#283046] border border-slate-700 rounded-md text-[#d0d2d6]' onChange={inputHandle} value={state.description} placeholder='description' name='description' id='description'></textarea>
+                            <JoditEditor
+
+                                ref={editor}
+                                value={content}
+                                // config={config}
+                                tabIndex={1} // tabIndex of textarea
+                                onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                                onChange={newContent => { }}
+                            />
                         </div>
                         <div className='grid lg:grid-cols-4 grid-cols-1 md:grid-cols-3 sm:grid-cols-2 sm:gap-4 md:gap-4 xs:gap-4 gap-3 w-full text-[#d0d2d6] mb-4'>
                             {
