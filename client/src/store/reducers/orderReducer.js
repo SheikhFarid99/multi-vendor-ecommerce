@@ -14,8 +14,14 @@ export const place_order = createAsyncThunk(
         userId,
         navigate,
         items
-    }) => {
+    }, { getState }) => {
         try {
+            const token = getState().auth.token
+            const config = {
+                headers: {
+                    'authorization': `Bearer ${token}`
+                }
+            }
             const {
                 data
             } = await api.post('/home/order/palce-order', {
@@ -26,7 +32,7 @@ export const place_order = createAsyncThunk(
                 userId,
                 navigate,
                 items,
-            })
+            },config)
             navigate('/payment', {
                 state: {
                     price: price + shipping_fee,
@@ -49,12 +55,19 @@ export const get_orders = createAsyncThunk(
         status
     }, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.get(`/home/customer/gat-orders/${customerId}/${status}`)
+            } = await api.get(`/home/customer/gat-orders/${customerId}/${status}`,config)
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.response)
@@ -66,12 +79,19 @@ export const get_order = createAsyncThunk(
     'order/get_order',
     async (orderId, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.get(`/home/customer/gat-order/${orderId}`)
+            } = await api.get(`/home/customer/gat-order/${orderId}`,config)
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.response)

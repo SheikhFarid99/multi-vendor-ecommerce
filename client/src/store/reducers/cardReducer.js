@@ -8,12 +8,19 @@ export const add_to_card = createAsyncThunk(
     'card/add_to_card',
     async (info, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.post('/home/product/add-to-card', info)
+            } = await api.post('/home/product/add-to-card', info, config)
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.response)
@@ -26,12 +33,19 @@ export const get_card_products = createAsyncThunk(
     'card/get_card_products',
     async (userId, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.get(`/home/product/get-card-product/${userId}`)
+            } = await api.get(`/home/product/get-card-product/${userId}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -43,12 +57,19 @@ export const delete_card_product = createAsyncThunk(
     'card/delete_card_product',
     async (card_id, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.delete(`/home/product/delete-card-product/${card_id}`)
+            } = await api.delete(`/home/product/delete-card-product/${card_id}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -61,12 +82,19 @@ export const quantity_inc = createAsyncThunk(
     'card/quantity_inc',
     async (card_id, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.put(`/home/product/quantity-inc/${card_id}`)
+            } = await api.put(`/home/product/quantity-inc/${card_id}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -78,12 +106,19 @@ export const quantity_dec = createAsyncThunk(
     'card/quantity_dec',
     async (card_id, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.put(`/home/product/quantity-dec/${card_id}`)
+            } = await api.put(`/home/product/quantity-dec/${card_id}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -95,12 +130,19 @@ export const add_to_wishlist = createAsyncThunk(
     'wishlist/add_to_wishlist',
     async (info, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.post('/home/product/add-to-wishlist', info)
+            } = await api.post('/home/product/add-to-wishlist', info, config)
             console.log(data)
             return fulfillWithValue(data)
         } catch (error) {
@@ -113,12 +155,19 @@ export const get_wishlist_products = createAsyncThunk(
     'wishlist/get_wishlist_products',
     async (userId, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.get(`/home/product/get-wishlist-products/${userId}`)
+            } = await api.get(`/home/product/get-wishlist-products/${userId}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -130,12 +179,19 @@ export const remove_wishlist = createAsyncThunk(
     'wishlist/remove_wishlist',
     async (wishlistId, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.delete(`/home/product/delete-wishlist-product/${wishlistId}`)
+            } = await api.delete(`/home/product/delete-wishlist-product/${wishlistId}`, config)
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)

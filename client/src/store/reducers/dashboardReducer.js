@@ -8,12 +8,19 @@ export const get_dashboard_index_data = createAsyncThunk(
     'dashboard/get_dashboard_index_data',
     async (userId, {
         rejectWithValue,
-        fulfillWithValue
+        fulfillWithValue,
+        getState
     }) => {
+        const token = getState().auth.token
+        const config = {
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        }
         try {
             const {
                 data
-            } = await api.get(`/home/customer/gat-dashboard-data/${userId}`)
+            } = await api.get(`/home/customer/gat-dashboard-data/${userId}`,config)
             return fulfillWithValue(data)
         } catch (error) {
             console.log(error.response.data)

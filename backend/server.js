@@ -17,13 +17,13 @@ const mode = process.env.mode
 const server = http.createServer(app)
 
 app.use(cors({
-    origin: mode === 'production' ? ['http://localhost:3000', process.env.admin_panel_production_url] : ['http://localhost:3000', 'http://localhost:3001'],
+    origin: mode === 'production' ? [process.env.user_panel_production_url, process.env.admin_panel_production_url] : ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true
 }))
 
 const io = socket(server, {
     cors: {
-        origin: mode === 'production' ? ['http://localhost:3000', process.env.admin_panel_production_url] : ['http://localhost:3000', 'http://localhost:3001'],
+        origin: mode === 'production' ? [process.env.user_panel_production_url, process.env.admin_panel_production_url] : ['http://localhost:3000', 'http://localhost:3001'],
         credentials: true
     }
 })

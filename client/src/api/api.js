@@ -1,8 +1,6 @@
 import axios from 'axios'
-const local = 'http://localhost:5000'
-const production = ''
+import { api_url } from '../utils/config'
 const api = axios.create({
-    baseURL: `${local}/api`,
-    withCredentials : true
+    baseURL: `${api_url}/api`,
 })
 export default api
