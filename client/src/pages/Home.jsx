@@ -17,14 +17,14 @@ const Home = () => {
         <div className='w-full'>
             <Heders />
             <Banner />
-            <div className='my-4'>
+            <div className='my-4 max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
                 <Categorys />
             </div>
-            <div className='py-[45px]'>
+            <div className='py-[45px] max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
                 <FeatureProducts products={products} />
             </div>
             <div className='py-10'>
-                <div className='w-[85%] flex flex-wrap mx-auto'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 flex flex-wrap'>
                     <div className="grid w-full grid-cols-3 md-lg:grid-cols-2 md:grid-cols-1 gap-7">
                         <div className='overflow-hidden'>
                             <Products title='Latest Product' products={latest_product} />

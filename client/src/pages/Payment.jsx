@@ -10,7 +10,7 @@ const Payment = () => {
         <div>
             <Headers />
             <section className='bg-[#eeeeee]'>
-                <div className='w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90%] mx-auto py-16 mt-4'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 py-16 mt-4'>
                     <div className='flex flex-wrap md:flex-col-reverse'>
                         <div className='w-7/12 md:w-full'>
                             <div className='pr-2 md:pr-0'>

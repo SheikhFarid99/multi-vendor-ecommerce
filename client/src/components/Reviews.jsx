@@ -121,7 +121,7 @@ const Reviews = ({ product }) => {
             <div className='w-[200px] h-[14px] bg-slate-200 relative'>
               <div className='h-full bg-[#EDBB0E] w-[0%]'></div>
             </div>
-            <p className='text-sm text-slate-600 w-[0%]'>0</p>
+            <p className='text-sm text-slate-600 w-[0%]'>{totalReview}</p>
           </div>
         </div>
       </div>

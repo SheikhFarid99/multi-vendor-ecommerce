@@ -150,7 +150,7 @@ const Register = () => {
             }
             <Headers />
             <div className='bg-slate-200 mt-4'>
-                <div className='w-full justify-center items-center p-10 sm:p-5'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 justify-center items-center p-10 sm:p-5'>
                     <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1  w-[60%] md-lg:w-full md:w-full sm:w-full mx-auto bg-white rounded-md'>
                         <div className='px-8 py-8 md-lg:w-full md:w-full sm:w-full'>
                             <h2 className='text-center w-full text-xl text-slate-600 font-bold'>Register</h2>

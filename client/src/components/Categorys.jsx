@@ -39,7 +39,7 @@ const Categorys = () => {
         }
     }
     return (
-        <div className='w-[87%] mx-auto relative'>
+        <div className='w-full mx-auto relative'>
 
             <Carousel
                 //autoPlay={true}
@@ -49,10 +49,10 @@ const Categorys = () => {
                 transitionDuration={500}
             >
                 {
-                    categorys.map((c, i) => <Link className='h-[200px] p-1 block' key={i} to={`/products?category=${c.name}`}>
-                        <div className='w-full h-full relative border flex justify-center items-center'>
-                            <img src={c.image} className='w-full h-full' alt="image" />
-                            <div className='absolute bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center'>
+                    categorys.map((c, i) => <Link className='block p-[2px] border  w-full bg-white aspect-square' key={i} to={`/products?category=${c.name}`}>
+                        <div className='w-full hover:shadow-[1px_3px_19px_1px_rgba(194,188,194,1)]  h-full gap-y-2 flex-col relative  flex justify-center items-center'>
+                            <img src={c.image} className='w-[70%] aspect-square' alt="image" />
+                            <div className='bottom-6 w-full mx-auto font-bold left-0 flex justify-center items-center'>
                                 <span className='py-[2px] px-6 bg-[#3330305d] text-white'>{c.name}</span>
                             </div>
                         </div>

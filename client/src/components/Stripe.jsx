@@ -27,7 +27,7 @@ const Stripe = ({ price, orderId }) => {
         }
     }
     return (
-        <div className='mt-4'>
+        <div className='py-8 px-4 bg-white'>
             {
                 clientSecret ? (
                     <Elements options={options} stripe={stripePromise}>

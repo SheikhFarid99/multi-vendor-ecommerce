@@ -49,22 +49,27 @@ const Shipping = () => {
     return (
         <div>
             <Headers />
-            <section style={{backgroundImage : 'url("/images/banner/order.jpg")'}} className='h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
-                <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
-                    <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
-                        <div className='flex flex-col justify-center gap-1 items-center h-full w-full text-white'>
-                            <h2 className='text-3xl font-bold'>Shop.my</h2>
-                            <div className='flex justify-center items-center gap-2 text-2xl w-full'>
-                                <Link to='/'>Home</Link>
-                                <span className='pt-2'><MdOutlineKeyboardArrowRight /></span>
-                                <span>Place Order</span>
+            <div className='bg-[#eeeeee] w-full'>
+
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 pt-6'>
+                    <section style={{ backgroundImage: 'url("/images/banner/order.jpg")' }} className='h-[220px]  bg-cover bg-no-repeat relative bg-left'>
+                        <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
+                            <div className='w-full h-full mx-auto'>
+                                <div className='flex flex-col justify-center gap-1 items-center h-full w-full text-white'>
+                                    <h2 className='text-3xl font-bold'>Shop.my</h2>
+                                    <div className='flex justify-center items-center gap-2 text-2xl w-full'>
+                                        <Link to='/'>Home</Link>
+                                        <span className='pt-2'><MdOutlineKeyboardArrowRight /></span>
+                                        <span>Place Order</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
                 </div>
-            </section>
+            </div>
             <section className='bg-[#eeeeee]'>
-                <div className='w-[85%] lg:w-[90%] md:w-[90%] sm:w-[90] mx-auto py-16'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 py-16'>
                     <div className='w-full flex flex-wrap'>
                         <div className='w-[67%] md-lg:w-full'>
                             <div className="flex flex-col gap-3">

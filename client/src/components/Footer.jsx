@@ -14,7 +14,7 @@ const Footer = () => {
 
     return (
         <footer className='bg-[#F3F6Fa]'>
-            <div className='w-[85%] flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6'>
+            <div className='max-w-[1440px] px-16 sm:px-5 md-lg:px-12 md:px-10 flex flex-wrap mx-auto border-b py-16 md-lg:pb-10 sm:pb-6'>
                 <div className='w-3/12 lg:w-4/12 sm:w-full'>
                     <div className='flex flex-col gap-3'>
                         <img className='w-[190px] h-[70x]' src="/images/logo.png" alt="logo" />
@@ -93,7 +93,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-[85%] flex flex-wrap justify-center items-center text-slate-700 mx-auto py-5 text-center'>
+            <div className='w-full flex flex-wrap justify-center items-center text-slate-700 mx-auto py-5 text-center'>
                 <span>Copyright ©{new Date().getFullYear()} All rights reserved | made by <a className='text-blue-500 underline' href="">@Learn with Project</a></span>
             </div>
 

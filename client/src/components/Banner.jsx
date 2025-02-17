@@ -34,7 +34,7 @@ const Banner = () => {
     }, [])
     return (
         <div className='w-full md-lg:mt-6'>
-            <div className='w-[85%] lg:w-[90%] mx-auto'>
+            <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
                 <div className='w-full flex flex-wrap md-lg:gap-8'>
                     <div className='w-full'>
                         <div className='my-8'>

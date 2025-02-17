@@ -25,7 +25,7 @@ const Details = () => {
     const navigate = useNavigate()
     const { slug } = useParams()
     const dispatch = useDispatch()
-    const { product, relatedProducts, moreProducts } = useSelector(state => state.home)
+    const { product, relatedProducts, moreProducts,totalReview } = useSelector(state => state.home)
     const { userInfo } = useSelector(state => state.auth)
     const { errorMessage, successMessage } = useSelector(state => state.card)
 
@@ -54,11 +54,11 @@ const Details = () => {
         },
         smmobile: {
             breakpoint: { max: 640, min: 0 },
-            items: 2
+            items: 3
         },
         xsmobile: {
             breakpoint: { max: 440, min: 0 },
-            items: 1
+            items: 2
         }
     }
 
@@ -154,17 +154,21 @@ const Details = () => {
     return (
         <div>
             <Headers />
-            <div style={{backgroundImage : 'url("/images/banner/order.jpg")'}} className=' h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
-                <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
-                    <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
-                        <div className='flex flex-col justify-center gap-1 items-center h-full w-full text-white'>
-                            <h2 className='text-3xl font-bold'>Shop.my</h2>
+            <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
+
+
+                <div style={{ backgroundImage: 'url("/images/banner/order.jpg")' }} className=' h-[220px] mt-6 bg-cover bg-no-repeat relative bg-left'>
+                    <div className='absolute left-0 top-0 w-full h-full bg-[#2422228a]'>
+                        <div className='w-full h-full mx-auto'>
+                            <div className='flex flex-col justify-center gap-1 items-center h-full w-full text-white'>
+                                <h2 className='text-3xl font-bold'>Shop.my</h2>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='bg-slate-100 py-5 mb-5'>
-                <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
+            <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
+                <div className='bg-slate-100 py-5 mb-5 px-3'>
                     <div className='flex justify-start items-center text-md text-slate-600 w-full'>
                         <Link to='/'>Home</Link>
                         <span className='pt-1'><MdOutlineKeyboardArrowRight /></span>
@@ -175,11 +179,11 @@ const Details = () => {
                 </div>
             </div>
             <section>
-                <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 pb-16'>
                     <div className='grid grid-cols-2 md-lg:grid-cols-1 gap-8'>
                         <div>
                             <div className='p-5 border'>
-                                <img className='h-[500px] w-full' src={image ? image : product.images?.[0]} alt="" />
+                                <img className='w-full aspect-square' src={image ? image : product.images?.[0]} alt="" />
                             </div>
                             <div className='py-3'>
                                 {
@@ -193,7 +197,7 @@ const Details = () => {
                                             product.images.map((img, i) => {
                                                 return (
                                                     <div key={i} onClick={() => setImage(img)}>
-                                                        <img className='h-[120px] cursor-pointer' src={img} alt="" />
+                                                        <img className=' cursor-pointer aspect-square p-1' src={img} alt="" />
                                                     </div>
                                                 )
                                             })
@@ -210,13 +214,14 @@ const Details = () => {
                                 <div className='flex text-xl'>
                                     <Ratings ratings={product.rating} />
                                 </div>
-                                <span className='text-green-500'>(23 reviews)</span>
+                                <span className='text-green-500'>({totalReview} reviews)</span>
                             </div>
                             <div className='text-2xl text-red-500 font-bold flex gap-3'>
                                 {
                                     product.discount !== 0 ? <>
                                         <h2 className='line-through'>${product.price}</h2>
-                                        <h2>${product.price - Math.floor((product.price * product.discount) / 100)} (-{product.discount}%)</h2>
+                                        <h2 className='text-black'>${product.price - Math.floor((product.price * product.discount) / 100)} </h2>
+                                        <h2>(-{product.discount}%)</h2>
                                     </> : <h2>Price : ${product.price}</h2>
                                 }
                             </div>
@@ -278,7 +283,7 @@ const Details = () => {
                 </div>
             </section>
             <section>
-                <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto pb-16'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10 pb-16'>
                     <div className='flex flex-wrap'>
                         <div className='w-[72%] md-lg:w-full'>
                             <div className='pr-4 md-lg:pr-0'>
@@ -298,20 +303,25 @@ const Details = () => {
                                 <div className='px-3 py-2 text-slate-600 bg-slate-200'>
                                     <h2> From {product.shopName}</h2>
                                 </div>
-                                <div className='flex flex-col gap-5 mt-3 border p-3'>
+                                <div className='grid grid-cols-2 gap-5 mt-3 border p-3'>
                                     {
                                         moreProducts.map((p, i) => {
                                             return (
-                                                <Link className='block'>
-                                                    <div className='relative h-[270px]'>
-                                                        <img className='w-full h-full' src={p.images[0]} />
+                                                <Link key={i} to={`/product/details/${p.slug}`} className='block'>
+                                                    <div className='relative'>
+                                                        <img className='w-full aspect-square' src={p.images[0]} />
                                                         {
                                                             p.discount !== 0 && <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>{p.discount}%</div>
                                                         }
                                                     </div>
-                                                    <h2 className='text-slate-600 py-1'>{p.name}</h2>
+                                                    <h2 className='text-slate-600 py-1'>{p.name?.slice(0,40)}...</h2>
                                                     <div className='flex gap-2'>
-                                                        <h2 className='text-[#6699ff] text-lg font-bold'>${p.price}</h2>
+                                                        <h2 className='text-slate-600'>Price: </h2>
+                                                        <span className=' text-lg font-bold'>${p.price}</span>
+                                                        
+                                                    </div>
+                                                    <div className='flex gap-2'>
+                                                       
                                                         <div className='flex items-center gap-2'>
                                                             <Ratings ratings={p.rating} />
                                                         </div>
@@ -327,7 +337,7 @@ const Details = () => {
                 </div>
             </section>
             <section>
-                <div className='w-[85%] md:w-[80%] sm:w-[90%] lg:w-[90%] h-full mx-auto'>
+                <div className='max-w-[1440px] mx-auto px-16 sm:px-5 md-lg:px-12 md:px-10'>
                     <h2 className='text-2xl py-8 text-slate-600'>Related Products</h2>
                     <div>
                         <Swiper
