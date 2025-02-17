@@ -15,6 +15,26 @@ const Register = () => {
     const navigate = useNavigate()
     const { loader, successMessage, errorMessage, userInfo } = useSelector(state => state.auth)
     const dispatch = useDispatch()
+
+    const [otp_res, set_otp_res] = useState(false)
+    const [res, setRes] = useState(false)
+
+    const [otpData, setOtpData] = useState({
+        number1: "",
+        number2: "",
+        number3: "",
+        number4: "",
+    });
+
+
+    const otpHandle = (e) => {
+        setOtpData({
+            ...otpData,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -44,6 +64,82 @@ const Register = () => {
             navigate('/')
         }
     }, [successMessage, errorMessage])
+
+    // const user_register = async (e) => {
+    //     e.preventDefault()
+    //     try {
+
+    //         setLoader(true)
+    //         const { data } = await api.post('/api/user-register', state)
+    //         setLoader(false)
+    //         setRes(true)
+    //         toast.success(data.message)
+    //     } catch (error) {
+    //         setLoader(false)
+    //         toast.error(error.response.data.message)
+    //     }
+    // }
+
+
+    // useEffect(() => {
+    //     if (res) {
+    //         const inputs = document.querySelectorAll(".otp_field");
+    //         inputs.forEach((input, index1) => {
+    //             input.addEventListener("keyup", (e) => {
+    //                 const currentInput = input,
+    //                     nextInput = input.nextElementSibling,
+    //                     prevInput = input.previousElementSibling;
+    //                 if (currentInput.value.length > 1) {
+    //                     currentInput.value = "";
+    //                     return;
+    //                 }
+    //                 if (
+    //                     nextInput &&
+    //                     nextInput.hasAttribute("disabled") &&
+    //                     currentInput.value !== ""
+    //                 ) {
+    //                     nextInput.removeAttribute("disabled");
+    //                     nextInput.focus();
+    //                 }
+    //                 if (e.key === "Backspace") {
+    //                     inputs.forEach((input, index2) => {
+    //                         if (index1 <= index2 && prevInput) {
+    //                             input.setAttribute("disabled", true);
+    //                             input.value = "";
+    //                             prevInput.focus();
+    //                         }
+    //                     });
+    //                 }
+    //                 if (!inputs[3].disabled && inputs[3].value !== "") {
+    //                     return;
+    //                 }
+    //             });
+    //         });
+    //         window.addEventListener("load", () => inputs[0].focus());
+    //     }
+    // }, [res]);
+
+
+    // const otp_submit = async (e) => {
+
+    //     e.preventDefault();
+
+    //     let otp = otpData.number1 + otpData.number2 + otpData.number3 + otpData.number4
+
+    //     otp = parseInt(otp);
+
+    //     try {
+    //         set_otp_res(true)
+    //         const { data } = await api.post(`/api/otp-submit`, { otp })
+    //         set_otp_res(false)
+    //         localStorage.setItem('canva_token', data.token)
+    //         window.location.href = '/'
+    //     } catch (error) {
+    //         set_otp_res(false)
+    //         console.log(error)
+    //         toast.error(error?.response?.data?.message)
+    //     }
+    // };
 
     return (
         <div>
@@ -81,19 +177,19 @@ const Register = () => {
                                 </div>
                                 <button className='px-8 w-full py-2 bg-indigo-500 shadow hover:shadow-indigo-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3'>
                                     <span><FaFacebookF /></span>
-                                    <span>Login with Facebook</span>
+                                    <span>Facebook</span>
                                 </button>
                                 <button className='px-8 w-full py-2 bg-orange-500 shadow hover:shadow-orange-500/30 text-white rounded-md flex justify-center items-center gap-2 mb-3'>
                                     <span><AiOutlineGoogle /></span>
-                                    <span>Login with Facebook</span>
+                                    <span>Google</span>
                                 </button>
                             </div>
                             <div className='text-center text-slate-600 pt-1'>
-                                <p>You have no account ?</p>
+                                <p>You have a account?<Link className='text-blue-500' to='/login'> Login</Link></p>
                             </div>
-                            <div className='text-center text-slate-600 pt-1'>
+                            {/* <div className='text-center text-slate-600 pt-1'>
                                 <p> <Link className='text-blue-500' to='/login'>Login</Link> seller account</p>
-                            </div>
+                            </div> */}
                         </div>
                         <div className='w-full h-full py-4 pr-4 block md:hidden'>
                             <img className='w-full h-[95%]' src="/images/login.jpg" alt="" />

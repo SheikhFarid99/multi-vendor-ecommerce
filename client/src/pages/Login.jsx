@@ -85,11 +85,11 @@ const Login = () => {
                                 </button>
                             </div>
                             <div className='text-center text-slate-600 pt-1'>
-                                <p>You have no account ? </p>
+                                <p>You have no account? <Link  className='text-blue-500' to='/register'> Register</Link> </p>
                             </div>
-                            <div className='text-center text-slate-600 pt-1'>
+                            {/* <div className='text-center text-slate-600 pt-1'>
                                 <p> <Link  className='text-blue-500' to='/register'>Register</Link> seller account</p>
-                            </div>
+                            </div> */}
                         </div>
                         <div className='w-full h-full py-4 pr-4 block md:hidden'>
                             <img className='w-full h-[95%]' src="/images/login.jpg" alt="" />
