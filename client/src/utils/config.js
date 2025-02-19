@@ -4,7 +4,7 @@ const stripe_sky = 'pk_test_51Nk8Y4F0B89ncn3xWB6ZN3GsbVIVL7Jqfa3jxtIOpPkKHcleHZw
 const production = 'production'
 const dev = 'development'
 
-const mode = dev
+const mode = production
 
 let app_url, api_url
 
